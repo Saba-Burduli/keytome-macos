@@ -1,4 +1,3 @@
-import AppKit
 import SwiftUI
 
 struct CopyButton: View {
@@ -7,8 +6,7 @@ struct CopyButton: View {
 
     var body: some View {
         Button {
-            NSPasteboard.general.clearContents()
-            NSPasteboard.general.setString(value, forType: .string)
+            Pasteboard.copy(value)
             copied = true
             Task {
                 try? await Task.sleep(for: .seconds(1.2))
