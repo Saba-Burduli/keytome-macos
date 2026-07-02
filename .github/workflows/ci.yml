@@ -1,0 +1,20 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select Xcode
+        run: sudo xcode-select --switch /Applications/Xcode.app
+      - name: Build
+        run: swift build
+      - name: Test
+        run: swift test
+
+      # This project is SwiftPM-first, so no Xcode scheme is required. If an
+      # .xcodeproj is added later, replace the build step with its shared scheme.

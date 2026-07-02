@@ -1,0 +1,17 @@
+name: Quality
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lightweight-checks:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check whitespace errors
+        run: git diff --check HEAD^ HEAD || git diff --check
+      - name: Validate package manifest
+        run: swift package dump-package > /dev/null
+      - name: Validate run script syntax
+        run: bash -n script/build_and_run.sh
