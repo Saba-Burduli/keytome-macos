@@ -9,6 +9,7 @@ enum ReferenceCategory: String, CaseIterable, Codable, Identifiable, Sendable {
     case terminal = "Terminal"
     case homebrew = "Homebrew"
     case zsh
+    case vimNvim = "Vim / Nvim"
 
     var id: String { rawValue }
 
@@ -22,6 +23,7 @@ enum ReferenceCategory: String, CaseIterable, Codable, Identifiable, Sendable {
         case .terminal: "apple.terminal"
         case .homebrew: "mug"
         case .zsh: "chevron.left.forwardslash.chevron.right"
+        case .vimNvim: "v.square"
         }
     }
 }

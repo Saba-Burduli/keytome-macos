@@ -1,7 +1,7 @@
 import Foundation
 
 enum SeedData {
-    static let items: [ReferenceItem] = macOS + chrome + firefox + dia + brave + terminal + homebrew + zsh
+    static let items: [ReferenceItem] = macOS + chrome + firefox + dia + brave + terminal + homebrew + zsh + vimNvim
 
     private static func shortcut(
         _ id: String,
@@ -174,6 +174,35 @@ enum SeedData {
         command("zsh-setopt", "Enable zsh option", "setopt <option>", "Enable a zsh behavior option for the current shell.", .zsh, tags: ["config"]),
         command("zsh-unsetopt", "Disable zsh option", "unsetopt <option>", "Disable a zsh behavior option for the current shell.", .zsh, tags: ["config"]),
         command("zsh-shell-options", "List zsh options", "setopt", "List zsh options enabled in the current shell.", .zsh, tags: ["config", "diagnostics"])
+    ]
+
+    static let vimNvim: [ReferenceItem] = [
+        shortcut("vim-left", "Move left", "h", "Move one character left in Normal mode.", .vimNvim, tags: ["motion"]),
+        shortcut("vim-down", "Move down", "j", "Move one line down in Normal mode.", .vimNvim, tags: ["motion"]),
+        shortcut("vim-up", "Move up", "k", "Move one line up in Normal mode.", .vimNvim, tags: ["motion"]),
+        shortcut("vim-right", "Move right", "l", "Move one character right in Normal mode.", .vimNvim, tags: ["motion"]),
+        shortcut("vim-word", "Next word", "w", "Move to the start of the next word.", .vimNvim, tags: ["motion"]),
+        shortcut("vim-word-back", "Previous word", "b", "Move to the start of the previous word.", .vimNvim, tags: ["motion"]),
+        shortcut("vim-word-end", "End of word", "e", "Move to the end of the current or next word.", .vimNvim, tags: ["motion"]),
+        shortcut("vim-line-start", "Start of line", "0", "Move to the first character of the line.", .vimNvim, tags: ["motion"]),
+        shortcut("vim-first-nonblank", "First non-blank", "^", "Move to the first non-blank character of the line.", .vimNvim, tags: ["motion"]),
+        shortcut("vim-line-end", "End of line", "$", "Move to the end of the line.", .vimNvim, tags: ["motion"]),
+        shortcut("vim-file-start", "First line", "gg", "Move to the first line of the buffer.", .vimNvim, tags: ["motion"]),
+        shortcut("vim-file-end", "Last line", "G", "Move to the last line of the buffer.", .vimNvim, tags: ["motion"]),
+        shortcut("vim-search", "Search forward", "/pattern", "Search forward for a pattern.", .vimNvim, tags: ["search"]),
+        shortcut("vim-search-next", "Next search result", "n", "Repeat the latest search in the same direction.", .vimNvim, tags: ["search"]),
+        shortcut("vim-search-previous", "Previous search result", "N", "Repeat the latest search in the opposite direction.", .vimNvim, tags: ["search"]),
+        shortcut("vim-command", "Command-line mode", ":", "Enter an Ex command on the command line.", .vimNvim, tags: ["mode"]),
+        shortcut("vim-normal", "Return to Normal mode", "Esc", "Leave Insert, Visual, Search, or Command mode.", .vimNvim, tags: ["mode"]),
+        shortcut("vim-insert", "Insert before cursor", "i", "Enter Insert mode before the cursor.", .vimNvim, tags: ["editing"]),
+        shortcut("vim-append", "Append after cursor", "a", "Enter Insert mode after the cursor.", .vimNvim, tags: ["editing"]),
+        shortcut("vim-visual", "Visual character mode", "v", "Start a characterwise visual selection.", .vimNvim, tags: ["selection"]),
+        shortcut("vim-yank-line", "Yank line", "yy", "Copy the current line into a register.", .vimNvim, tags: ["copy", "register"]),
+        shortcut("vim-paste-after", "Put after cursor", "p", "Put register contents after the cursor or below the line.", .vimNvim, tags: ["paste", "register"]),
+        shortcut("vim-delete-line", "Delete line", "dd", "Delete the current line into a register.", .vimNvim, tags: ["editing", "register"]),
+        shortcut("vim-undo", "Undo", "u", "Undo the latest change.", .vimNvim, tags: ["editing"]),
+        shortcut("vim-redo", "Redo", "⌃ R", "Redo a change that was undone.", .vimNvim, tags: ["editing"]),
+        shortcut("vim-help", "Open help", ":help", "Open Neovim help for a command or topic.", .vimNvim, tags: ["help"])
     ]
 
     private static func browserShortcuts(category: ReferenceCategory) -> [ReferenceItem] {

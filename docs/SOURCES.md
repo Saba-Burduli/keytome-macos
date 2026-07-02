@@ -30,6 +30,15 @@ No complete, public, official Dia keyboard-shortcut reference was discoverable d
 
 The Homebrew pack includes daily package management, diagnostics, dependency inspection, services, cleanup previews, pinning, and reproducible Brewfile workflows. The zsh pack includes navigation, aliases, environment variables, job control, directory stacks, shell options, pipes, conditional execution, and redirection, alongside common command-line utilities used from zsh.
 
+## Vim and Neovim
+
+- [Neovim motion reference](https://neovim.io/doc/user/motion/)
+- [Neovim change, yank, and register reference](https://neovim.io/doc/user/change/)
+- [Neovim command-line reference](https://neovim.io/doc/user/cmdline/)
+- [Neovim user guide: moving around and searching](https://neovim.io/doc/user/usr_03/)
+
+The Vim/Nvim pack is limited to default, broadly applicable motions, modes, search, editing, yank, paste, undo, and help commands. KeyForge itself mirrors the relevant navigation model while keeping application-specific actions explicit.
+
 ## Maintenance policy
 
 - Prefer vendor or project documentation over community lists.

@@ -2,61 +2,59 @@ import SwiftUI
 
 struct ReferenceRow: View {
     let item: ReferenceItem
+    let lineNumber: Int
     let isSelected: Bool
 
     var body: some View {
-        HStack(spacing: 15) {
-            VStack(alignment: .leading, spacing: 7) {
-                HStack(spacing: 8) {
-                    Text(item.title)
-                        .font(.system(size: 14, weight: .semibold))
-                    CategoryBadge(category: item.category)
-                    if item.confidence == .common {
-                        Text("COMMON")
-                            .font(.system(size: 9, weight: .bold, design: .monospaced))
-                            .foregroundStyle(.orange)
-                    }
+        HStack(spacing: 0) {
+            Text(lineNumber.formatted())
+                .foregroundStyle(isSelected ? KeyForgeTheme.accent : KeyForgeTheme.blueMuted)
+                .frame(width: 42, alignment: .trailing)
+
+            HStack(spacing: 7) {
+                Text(item.title)
+                    .fontWeight(isSelected ? .semibold : .regular)
+                    .lineLimit(1)
+                if item.confidence == .common {
+                    Text("COMMON")
+                        .font(.system(size: 8, weight: .bold, design: .monospaced))
+                        .foregroundStyle(KeyForgeTheme.amber)
                 }
-
-                Text(item.description)
-                    .font(.system(size: 12))
-                    .foregroundStyle(KeyForgeTheme.muted)
-                    .lineLimit(2)
             }
-
-            Spacer(minLength: 18)
+            .frame(width: 230, alignment: .leading)
+            .padding(.leading, 20)
 
             Text(item.value)
-                .font(.system(size: 13, weight: .medium, design: .monospaced))
-                .foregroundStyle(KeyForgeTheme.accent)
-                .textSelection(.enabled)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 8)
-                .background(Color.black.opacity(0.28), in: RoundedRectangle(cornerRadius: 5))
+                .foregroundStyle(isSelected ? KeyForgeTheme.accent : .primary)
+                .lineLimit(1)
+                .padding(.horizontal, 9)
+                .padding(.vertical, 5)
+                .background(Color.black.opacity(0.30), in: RoundedRectangle(cornerRadius: 4))
+                .overlay { RoundedRectangle(cornerRadius: 4).stroke(KeyForgeTheme.borderStrong) }
+                .frame(width: 190, alignment: .leading)
 
-            CopyButton(value: item.value)
+            Text(item.description)
+                .foregroundStyle(isSelected ? .primary : KeyForgeTheme.muted)
+                .lineLimit(1)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            Image(systemName: "doc.on.doc")
+                .foregroundStyle(isSelected ? KeyForgeTheme.accent : Color.clear)
+                .frame(width: 42)
         }
-        .padding(.horizontal, 15)
-        .padding(.vertical, 13)
-        .background(isSelected ? KeyForgeTheme.accent.opacity(0.09) : KeyForgeTheme.surface)
+        .font(.system(size: 12, design: .monospaced))
+        .padding(.horizontal, 22)
+        .frame(height: 52)
+        .background(isSelected ? KeyForgeTheme.selection : Color.clear)
         .overlay {
-            RoundedRectangle(cornerRadius: 7)
-                .stroke(isSelected ? KeyForgeTheme.accent.opacity(0.55) : KeyForgeTheme.border)
+            if isSelected {
+                RoundedRectangle(cornerRadius: 5).stroke(KeyForgeTheme.accent.opacity(0.65))
+            }
         }
-        .clipShape(RoundedRectangle(cornerRadius: 7))
+        .overlay(alignment: .bottom) {
+            Rectangle().fill(KeyForgeTheme.border).frame(height: 1)
+        }
         .contentShape(Rectangle())
-    }
-}
-
-private struct CategoryBadge: View {
-    let category: ReferenceCategory
-
-    var body: some View {
-        Text(category.rawValue.uppercased())
-            .font(.system(size: 9, weight: .semibold, design: .monospaced))
-            .foregroundStyle(.secondary)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 3)
-            .background(KeyForgeTheme.elevatedSurface, in: RoundedRectangle(cornerRadius: 3))
+        .padding(.horizontal, 4)
     }
 }

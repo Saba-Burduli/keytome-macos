@@ -9,11 +9,12 @@ KeyForge is a native, offline macOS reference app for system shortcuts, browser 
 ## Features
 
 - Native SwiftUI interface for macOS 14 and newer
-- Eight bundled reference packs: macOS, Chrome, Firefox, Dia, Brave, Terminal, Homebrew, and zsh
+- Nine bundled reference packs: macOS, Chrome, Firefox, Dia, Brave, Terminal, Homebrew, zsh, and Vim/Nvim
 - Fast case-insensitive search with compact fuzzy-subsequence matching
 - Category filtering and result counts
 - One-click copy for every shortcut and command
-- Keyboard controls: `⌘F` focuses search, `⌘C` copies the selected entry, and `Esc` clears search
+- Neovim-style controls: `j/k` moves, `h/l` switches packs, `gg/G` jumps, `/` searches, `y` copies, `:` opens command mode, and `Esc` returns to NORMAL
+- Command palette support for `:search`, `:open`, `:next`, `:prev`, `:clear`, and `:help`
 - Resizable sidebar-detail layout with an empty-results state
 - Fully local data with no account, backend, telemetry, or network requirement
 - Curated from primary vendor documentation, recorded in [`docs/SOURCES.md`](docs/SOURCES.md)
@@ -74,7 +75,7 @@ When updating bundled entries, use the primary sources and maintenance policy in
 ## Roadmap
 
 - User-importable local JSON packs
-- Arrow-key list navigation and configurable key display style
+- Configurable key display styles and user-defined mappings
 - Favorites and recently copied entries
 - Verified Dia-specific reference pack
 - Signed and notarized release builds

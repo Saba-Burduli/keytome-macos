@@ -48,4 +48,25 @@ struct ReferenceSearchTests {
             #expect(items.count(where: { $0.category == category }) >= minimum)
         }
     }
+
+    @Test func commandPaletteParsesNavigationAndPackCommands() {
+        #expect(PaletteCommand.parse(":next") == .next)
+        #expect(PaletteCommand.parse("prev") == .previous)
+        #expect(PaletteCommand.parse(":search copy path") == .search("copy path"))
+        #expect(PaletteCommand.parse(":open chrome") == .open(.chrome))
+        #expect(PaletteCommand.parse(":open vimnvim") == .open(.vimNvim))
+        #expect(PaletteCommand.parse(":unknown") == nil)
+    }
+
+    @Test func sessionSupportsVimStyleNavigation() {
+        let session = KeyForgeSession(items: items)
+        let firstID = session.selectedItemID
+
+        session.moveSelection(by: 1)
+        #expect(session.selectedItemID != firstID)
+        session.moveToBoundary(first: false)
+        #expect(session.selectedItemID == session.visibleItems.last?.id)
+        session.switchCategory(by: 1)
+        #expect(session.category == .chrome)
+    }
 }

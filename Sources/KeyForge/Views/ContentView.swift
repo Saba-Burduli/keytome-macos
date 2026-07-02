@@ -1,83 +1,132 @@
 import SwiftUI
 
 struct ContentView: View {
-    private let repository = ReferenceRepository()
-
-    @State private var category: ReferenceCategory?
-    @State private var selectedItemID: ReferenceItem.ID?
-    @State private var query = ""
-    @FocusState private var searchIsFocused: Bool
-
-    private var visibleItems: [ReferenceItem] {
-        ReferenceSearch.filter(repository.items, query: query, category: category)
-    }
-
-    private var selectedItem: ReferenceItem? {
-        visibleItems.first { $0.id == selectedItemID }
-    }
+    @State private var session = KeyForgeSession()
+    @FocusState private var keyboardTarget: KeyboardTarget?
+    @State private var pendingG = false
 
     var body: some View {
-        NavigationSplitView {
-            SidebarView(
-                selection: $category,
-                counts: Dictionary(grouping: repository.items, by: \.category).mapValues(\.count),
-                totalCount: repository.items.count
-            )
-            .navigationSplitViewColumnWidth(min: 180, ideal: 210, max: 250)
-        } detail: {
-            VStack(spacing: 0) {
-                HeaderView(
-                    category: category,
-                    resultCount: visibleItems.count,
-                    query: $query,
-                    searchIsFocused: $searchIsFocused
-                )
+        ZStack {
+            HStack(spacing: 0) {
+                SidebarView(session: session)
+                    .frame(width: 260)
 
-                Divider().overlay(KeyForgeTheme.border)
+                Rectangle()
+                    .fill(KeyForgeTheme.borderStrong)
+                    .frame(width: 1)
 
-                ReferenceListView(
-                    items: visibleItems,
-                    selectedItemID: $selectedItemID,
-                    copyItem: copy
-                )
+                VStack(spacing: 0) {
+                    HeaderView(session: session, keyboardTarget: $keyboardTarget)
 
-                FooterView()
-            }
-            .background(KeyForgeTheme.background)
-        }
-        .frame(minWidth: 820, minHeight: 560)
-        .preferredColorScheme(.dark)
-        .task { searchIsFocused = true }
-        .onChange(of: query) { _, _ in normalizeSelection() }
-        .onChange(of: category) { _, _ in normalizeSelection() }
-        .onKeyPress(phases: .down) { press in
-            if press.modifiers == .command && press.characters == "f" {
-                searchIsFocused = true
-                return .handled
-            }
-            if press.modifiers == .command && press.characters == "c", let selectedItem {
-                copy(selectedItem)
-                return .handled
-            }
-            if press.key == .escape {
-                if !query.isEmpty {
-                    query = ""
-                    return .handled
+                    ReferenceListView(
+                        items: session.visibleItems,
+                        selectedItemID: session.selectedItemID,
+                        selectItem: { session.selectedItemID = $0 },
+                        copyItem: copy
+                    )
+
+                    FooterView(
+                        mode: session.mode,
+                        category: session.category,
+                        count: session.visibleItems.count,
+                        message: session.statusMessage
+                    )
                 }
-                searchIsFocused = false
             }
-            return .ignored
+
+            if session.showsHelp {
+                KeymapHelpView { closeHelp() }
+            }
         }
+        .frame(minWidth: 980, minHeight: 620)
+        .background(KeyForgeTheme.background)
+        .preferredColorScheme(.dark)
+        .focusable()
+        .focusEffectDisabled()
+        .focused($keyboardTarget, equals: .canvas)
+        .task { keyboardTarget = .canvas }
+        .onChange(of: session.mode) { _, mode in
+            Task { @MainActor in
+                await Task.yield()
+                keyboardTarget = mode == .normal ? .canvas : .prompt
+            }
+        }
+        .onChange(of: session.query) { _, _ in session.updateSearch() }
+        .onKeyPress(phases: .down, action: handleKeyPress)
     }
 
-    private func normalizeSelection() {
-        if let selectedItemID, visibleItems.contains(where: { $0.id == selectedItemID }) {
-            return
+    private func handleKeyPress(_ press: KeyPress) -> KeyPress.Result {
+        if press.modifiers == .command && press.characters.lowercased() == "f" {
+            session.beginSearch()
+            return .handled
         }
-        selectedItemID = visibleItems.first?.id
+        if press.modifiers == .command && press.characters.lowercased() == "c" {
+            copySelection()
+            return .handled
+        }
+        if press.key == .escape {
+            if session.showsHelp {
+                closeHelp()
+            } else {
+                session.returnToNormal()
+            }
+            return .handled
+        }
+
+        guard session.mode == .normal, press.modifiers.subtracting(.shift).isEmpty else { return .ignored }
+
+        switch press.characters {
+        case "j", "n":
+            session.moveSelection(by: 1)
+        case "k", "N":
+            session.moveSelection(by: -1)
+        case "h":
+            session.switchCategory(by: -1)
+        case "l":
+            session.switchCategory(by: 1)
+        case "/":
+            session.beginSearch()
+        case ":":
+            session.beginCommand()
+        case "y":
+            copySelection()
+        case "g":
+            if pendingG {
+                session.moveToBoundary(first: true)
+                pendingG = false
+            } else {
+                pendingG = true
+                session.statusMessage = "g"
+            }
+        case "G":
+            session.moveToBoundary(first: false)
+            pendingG = false
+        case "?":
+            session.showsHelp = true
+        default:
+            if press.key == .return {
+                copySelection()
+            } else {
+                pendingG = false
+                return .ignored
+            }
+        }
+        return .handled
+    }
+
+    private func copySelection() {
+        guard let item = session.selectedItem else { return }
+        copy(item)
     }
 
     private func copy(_ item: ReferenceItem) {
         Pasteboard.copy(item.value)
+        session.statusMessage = "yanked: \(item.value)"
+    }
+
+    private func closeHelp() {
+        session.showsHelp = false
+        session.returnToNormal()
+        keyboardTarget = .canvas
     }
 }

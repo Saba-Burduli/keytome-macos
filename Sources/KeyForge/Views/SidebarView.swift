@@ -1,106 +1,112 @@
 import SwiftUI
 
 struct SidebarView: View {
-    @Binding var selection: ReferenceCategory?
-    let counts: [ReferenceCategory: Int]
-    let totalCount: Int
+    @Bindable var session: KeyForgeSession
 
     var body: some View {
-        List {
-            Section {
-                packButton(
-                    title: "All references",
-                    systemImage: "square.grid.2x2",
-                    count: totalCount,
-                    category: nil
-                )
+        VStack(spacing: 0) {
+            brand
+
+            ScrollView {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("▾  REFERENCE PACKS")
+                        .font(.system(size: 9, weight: .semibold, design: .monospaced))
+                        .foregroundStyle(KeyForgeTheme.blueMuted)
+                        .padding(.horizontal, 18)
+                        .padding(.bottom, 5)
+
+                    packRow(title: "All References", icon: "square.stack.3d.up", count: session.totalCount, category: nil)
+
+                    ForEach(ReferenceCategory.allCases) { category in
+                        packRow(
+                            title: category.rawValue,
+                            icon: category.systemImage,
+                            count: session.counts[category, default: 0],
+                            category: category
+                        )
+                    }
+                }
+                .padding(.vertical, 8)
             }
 
-            Section("Packs") {
-                ForEach(ReferenceCategory.allCases) { category in
-                    packButton(
-                        title: category.rawValue,
-                        systemImage: category.systemImage,
-                        count: counts[category, default: 0],
-                        category: category
-                    )
-                }
-            }
+            sidebarHints
         }
-        .listStyle(.sidebar)
-        .safeAreaInset(edge: .top) {
-            BrandView()
-        }
+        .padding(.top, 34)
+        .background(KeyForgeTheme.sidebar)
     }
 
-    private func packButton(
+    private var brand: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 9) {
+                Image(systemName: "hammer.fill")
+                    .foregroundStyle(KeyForgeTheme.accent)
+                Text("KEYFORGE")
+                    .font(.system(size: 19, weight: .bold, design: .monospaced))
+                    .tracking(1.8)
+                    .foregroundStyle(KeyForgeTheme.accent)
+            }
+            Text("shortcut index")
+                .font(.system(size: 11, design: .monospaced))
+                .foregroundStyle(KeyForgeTheme.blueMuted)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, 20)
+        .padding(.bottom, 14)
+    }
+
+    private func packRow(
         title: String,
-        systemImage: String,
+        icon: String,
         count: Int,
         category: ReferenceCategory?
     ) -> some View {
-        Button {
-            selection = category
+        let isSelected = session.category == category
+        return Button {
+            session.selectCategory(category)
         } label: {
-            SidebarRow(
-                title: title,
-                systemImage: systemImage,
-                count: count,
-                isSelected: selection == category
-            )
+            HStack(spacing: 10) {
+                Text(isSelected ? "▸" : " ")
+                    .foregroundStyle(KeyForgeTheme.accent)
+                    .frame(width: 8)
+                Image(systemName: icon)
+                    .foregroundStyle(isSelected ? KeyForgeTheme.accent : .secondary)
+                    .frame(width: 18)
+                Text(title)
+                    .font(.system(size: 12, weight: isSelected ? .semibold : .regular, design: .monospaced))
+                    .foregroundStyle(isSelected ? KeyForgeTheme.accent : .primary)
+                Spacer()
+                Text(count.formatted())
+                    .font(.system(size: 10, design: .monospaced).monospacedDigit())
+                    .foregroundStyle(isSelected ? KeyForgeTheme.accent : KeyForgeTheme.muted)
+            }
+            .padding(.horizontal, 14)
+            .frame(height: 34)
+            .background(isSelected ? KeyForgeTheme.selection : .clear, in: RoundedRectangle(cornerRadius: 5))
+            .overlay {
+                if isSelected {
+                    RoundedRectangle(cornerRadius: 5).stroke(KeyForgeTheme.accent.opacity(0.55))
+                }
+            }
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .listRowBackground(
-            selection == category ? KeyForgeTheme.accent.opacity(0.12) : Color.clear
-        )
+        .padding(.horizontal, 8)
     }
-}
 
-private struct SidebarRow: View {
-    let title: String
-    let systemImage: String
-    let count: Int
-    let isSelected: Bool
-
-    var body: some View {
-        HStack(spacing: 9) {
-            Image(systemName: systemImage)
-                .foregroundStyle(KeyForgeTheme.accent)
-                .frame(width: 17)
-            Text(title)
-                .fontWeight(isSelected ? .semibold : .regular)
-                .lineLimit(1)
-            Spacer()
-            Text(count.formatted())
-                .font(.caption.monospacedDigit())
-                .foregroundStyle(.tertiary)
+    private var sidebarHints: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text("NAVIGATION")
+                .foregroundStyle(KeyForgeTheme.blueMuted)
+            Text("h/l  switch pack")
+            Text("j/k  move cursor")
+            Text("gg/G first / last")
         }
-        .padding(.vertical, 3)
+        .font(.system(size: 9, design: .monospaced))
+        .foregroundStyle(KeyForgeTheme.muted)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .contentShape(Rectangle())
-    }
-}
-
-private struct BrandView: View {
-    var body: some View {
-        HStack(spacing: 10) {
-            Image(systemName: "hammer.fill")
-                .font(.system(size: 15, weight: .semibold))
-                .foregroundStyle(KeyForgeTheme.accent)
-            VStack(alignment: .leading, spacing: 1) {
-                Text("KEYFORGE")
-                    .font(.system(size: 13, weight: .bold, design: .monospaced))
-                    .tracking(1.4)
-                Text("local reference index")
-                    .font(.system(size: 10, design: .monospaced))
-                    .foregroundStyle(.tertiary)
-            }
-            Spacer()
-        }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 13)
-        .background(.ultraThinMaterial)
-        .overlay(alignment: .bottom) {
+        .padding(.horizontal, 16)
+        .padding(.vertical, 10)
+        .overlay(alignment: .top) {
             Rectangle().fill(KeyForgeTheme.border).frame(height: 1)
         }
     }

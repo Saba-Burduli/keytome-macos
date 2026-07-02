@@ -7,7 +7,8 @@ struct KeyForgeApp: App {
         WindowGroup {
             ContentView()
         }
-        .defaultSize(width: 1100, height: 720)
+        .defaultSize(width: 1280, height: 800)
         .windowResizability(.contentMinSize)
+        .windowStyle(.hiddenTitleBar)
     }
 }
