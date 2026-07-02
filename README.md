@@ -16,6 +16,7 @@ KeyForge is a native, offline macOS reference app for system shortcuts, browser 
 - Keyboard controls: `⌘F` focuses search, `⌘C` copies the selected entry, and `Esc` clears search
 - Resizable sidebar-detail layout with an empty-results state
 - Fully local data with no account, backend, telemetry, or network requirement
+- Curated from primary vendor documentation, recorded in [`docs/SOURCES.md`](docs/SOURCES.md)
 
 Dia entries are intentionally limited to common browser conventions and are visibly marked `COMMON`. They should not be treated as Dia-specific verified documentation.
 
@@ -67,6 +68,8 @@ swift test
 4. Add search or data-integrity tests when the pack introduces new behavior.
 
 Each entry has a stable ID, title, copyable value, description, category, kind, tags, and confidence level. Use `.common` for plausible but not independently verified shortcuts so the UI communicates uncertainty.
+
+When updating bundled entries, use the primary sources and maintenance policy in [`docs/SOURCES.md`](docs/SOURCES.md). Do not promote community-reported shortcuts to verified data without vendor documentation.
 
 ## Roadmap
 
