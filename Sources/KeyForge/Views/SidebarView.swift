@@ -6,24 +6,24 @@ struct SidebarView: View {
     let totalCount: Int
 
     var body: some View {
-        List(selection: $selection) {
+        List {
             Section {
-                SidebarRow(
+                packButton(
                     title: "All references",
                     systemImage: "square.grid.2x2",
-                    count: totalCount
+                    count: totalCount,
+                    category: nil
                 )
-                .tag(nil as ReferenceCategory?)
             }
 
             Section("Packs") {
                 ForEach(ReferenceCategory.allCases) { category in
-                    SidebarRow(
+                    packButton(
                         title: category.rawValue,
                         systemImage: category.systemImage,
-                        count: counts[category, default: 0]
+                        count: counts[category, default: 0],
+                        category: category
                     )
-                    .tag(category as ReferenceCategory?)
                 }
             }
         }
@@ -32,12 +32,35 @@ struct SidebarView: View {
             BrandView()
         }
     }
+
+    private func packButton(
+        title: String,
+        systemImage: String,
+        count: Int,
+        category: ReferenceCategory?
+    ) -> some View {
+        Button {
+            selection = category
+        } label: {
+            SidebarRow(
+                title: title,
+                systemImage: systemImage,
+                count: count,
+                isSelected: selection == category
+            )
+        }
+        .buttonStyle(.plain)
+        .listRowBackground(
+            selection == category ? KeyForgeTheme.accent.opacity(0.12) : Color.clear
+        )
+    }
 }
 
 private struct SidebarRow: View {
     let title: String
     let systemImage: String
     let count: Int
+    let isSelected: Bool
 
     var body: some View {
         HStack(spacing: 9) {
@@ -45,6 +68,7 @@ private struct SidebarRow: View {
                 .foregroundStyle(KeyForgeTheme.accent)
                 .frame(width: 17)
             Text(title)
+                .fontWeight(isSelected ? .semibold : .regular)
                 .lineLimit(1)
             Spacer()
             Text(count.formatted())
@@ -52,6 +76,8 @@ private struct SidebarRow: View {
                 .foregroundStyle(.tertiary)
         }
         .padding(.vertical, 3)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(Rectangle())
     }
 }
 
