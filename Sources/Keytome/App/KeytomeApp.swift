@@ -2,7 +2,7 @@ import AppKit
 import SwiftUI
 
 @main
-struct KeyForgeApp: App {
+struct KeytomeApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -11,7 +11,7 @@ struct KeyForgeApp: App {
         .windowResizability(.contentMinSize)
         .windowStyle(.hiddenTitleBar)
         .commands {
-            CommandMenu("KeyForge") {
+            CommandMenu("Keytome") {
                 Button("Command Palette") { AppCommand.commandPalette.send() }
                     .keyboardShortcut("k", modifiers: .command)
                 Button("Search References") { AppCommand.search.send() }

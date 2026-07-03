@@ -8,7 +8,7 @@ struct ReferenceRow: View {
     var body: some View {
         HStack(spacing: 0) {
             Text(lineNumber.formatted())
-                .foregroundStyle(isSelected ? KeyForgeTheme.accent : KeyForgeTheme.blueMuted)
+                .foregroundStyle(isSelected ? KeytomeTheme.accent : KeytomeTheme.blueMuted)
                 .frame(width: 42, alignment: .trailing)
 
             HStack(spacing: 7) {
@@ -18,41 +18,41 @@ struct ReferenceRow: View {
                 if item.confidence == .common {
                     Text("COMMON")
                         .font(.system(size: 8, weight: .bold, design: .monospaced))
-                        .foregroundStyle(KeyForgeTheme.amber)
+                        .foregroundStyle(KeytomeTheme.amber)
                 }
             }
             .frame(minWidth: 150, idealWidth: 230, alignment: .leading)
             .padding(.leading, 20)
 
             Text(item.value)
-                .foregroundStyle(isSelected ? KeyForgeTheme.accent : .primary)
+                .foregroundStyle(isSelected ? KeytomeTheme.accent : .primary)
                 .lineLimit(1)
                 .padding(.horizontal, 9)
                 .padding(.vertical, 5)
                 .background(Color.black.opacity(0.30), in: RoundedRectangle(cornerRadius: 4))
-                .overlay { RoundedRectangle(cornerRadius: 4).stroke(KeyForgeTheme.borderStrong) }
+                .overlay { RoundedRectangle(cornerRadius: 4).stroke(KeytomeTheme.borderStrong) }
                 .frame(minWidth: 130, idealWidth: 190, alignment: .leading)
 
             Text(item.description)
-                .foregroundStyle(isSelected ? .primary : KeyForgeTheme.muted)
+                .foregroundStyle(isSelected ? .primary : KeytomeTheme.muted)
                 .lineLimit(1)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             Image(systemName: "doc.on.doc")
-                .foregroundStyle(isSelected ? KeyForgeTheme.accent : Color.clear)
+                .foregroundStyle(isSelected ? KeytomeTheme.accent : Color.clear)
                 .frame(width: 42)
         }
         .font(.system(size: 12, design: .monospaced))
         .padding(.horizontal, 22)
         .frame(height: 52)
-        .background(isSelected ? KeyForgeTheme.selection : Color.clear)
+        .background(isSelected ? KeytomeTheme.selection : Color.clear)
         .overlay {
             if isSelected {
-                RoundedRectangle(cornerRadius: 5).stroke(KeyForgeTheme.accent.opacity(0.65))
+                RoundedRectangle(cornerRadius: 5).stroke(KeytomeTheme.accent.opacity(0.65))
             }
         }
         .overlay(alignment: .bottom) {
-            Rectangle().fill(KeyForgeTheme.border).frame(height: 1)
+            Rectangle().fill(KeytomeTheme.border).frame(height: 1)
         }
         .contentShape(Rectangle())
         .padding(.horizontal, 4)

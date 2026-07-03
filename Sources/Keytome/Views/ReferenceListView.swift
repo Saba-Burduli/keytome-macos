@@ -29,7 +29,7 @@ struct ReferenceListView: View {
                     }
                 }
             }
-            .background(KeyForgeTheme.background)
+            .background(KeytomeTheme.background)
             .onChange(of: selectedItemID) { _, selectedID in
                 guard let selectedID else { return }
                 withAnimation(reduceMotion ? nil : .easeOut(duration: 0.1)) {
@@ -48,11 +48,11 @@ struct ReferenceListView: View {
             Color.clear.frame(width: 42)
         }
         .font(.system(size: 10, weight: .bold, design: .monospaced))
-        .foregroundStyle(KeyForgeTheme.blueMuted)
+        .foregroundStyle(KeytomeTheme.blueMuted)
         .padding(.horizontal, 22)
         .frame(height: 38)
         .overlay(alignment: .bottom) {
-            Rectangle().fill(KeyForgeTheme.borderStrong).frame(height: 1)
+            Rectangle().fill(KeytomeTheme.borderStrong).frame(height: 1)
         }
     }
 }

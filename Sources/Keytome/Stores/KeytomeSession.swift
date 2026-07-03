@@ -2,7 +2,7 @@ import Foundation
 import Observation
 
 @Observable
-final class KeyForgeSession {
+final class KeytomeSession {
     private let items: [ReferenceItem]
 
     var category: ReferenceCategory? = .macOS
@@ -90,7 +90,7 @@ final class KeyForgeSession {
     @discardableResult
     func executeCommand() -> Bool {
         guard let command = PaletteCommand.parse(commandText) else {
-            statusMessage = "E492: Not a KeyForge command"
+            statusMessage = "E492: Not a Keytome command"
             return false
         }
 
@@ -114,7 +114,7 @@ final class KeyForgeSession {
             statusMessage = "search cleared"
         case .help:
             showsHelp = true
-            statusMessage = "KeyForge keymap"
+            statusMessage = "Keytome keymap"
         }
 
         mode = .normal

@@ -12,7 +12,7 @@ enum AppCommand: String {
     case last
     case help
 
-    static let notification = Notification.Name("KeyForge.AppCommand")
+    static let notification = Notification.Name("Keytome.AppCommand")
 
     func send() {
         NotificationCenter.default.post(name: Self.notification, object: rawValue)

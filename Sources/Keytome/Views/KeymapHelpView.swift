@@ -18,9 +18,9 @@ struct KeymapHelpView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
             HStack {
-                Text(":help keyforge")
+                Text(":help keytome")
                     .font(.system(size: 17, weight: .bold, design: .monospaced))
-                    .foregroundStyle(KeyForgeTheme.accent)
+                    .foregroundStyle(KeytomeTheme.accent)
                 Spacer()
                 Button("Esc") { dismiss() }
                     .keyboardShortcut(.escape, modifiers: [])
@@ -28,12 +28,12 @@ struct KeymapHelpView: View {
 
             Text("NORMAL MODE")
                 .font(.system(size: 10, weight: .bold, design: .monospaced))
-                .foregroundStyle(KeyForgeTheme.blueMuted)
+                .foregroundStyle(KeytomeTheme.blueMuted)
 
             ForEach(bindings, id: \.0) { key, action in
                 HStack(spacing: 18) {
                     Text(key)
-                        .foregroundStyle(KeyForgeTheme.accent)
+                        .foregroundStyle(KeytomeTheme.accent)
                         .frame(width: 90, alignment: .trailing)
                     Text(action)
                         .foregroundStyle(.secondary)
@@ -41,15 +41,15 @@ struct KeymapHelpView: View {
                 .font(.system(size: 12, design: .monospaced))
             }
 
-            Divider().overlay(KeyForgeTheme.border)
+            Divider().overlay(KeytomeTheme.border)
             Text(":open chrome   :search copy   :next   :prev   :clear   :help")
                 .font(.system(size: 11, design: .monospaced))
-                .foregroundStyle(KeyForgeTheme.amber)
+                .foregroundStyle(KeytomeTheme.amber)
         }
         .padding(24)
         .frame(width: 520)
-        .background(KeyForgeTheme.elevatedSurface, in: RoundedRectangle(cornerRadius: 9))
-        .overlay { RoundedRectangle(cornerRadius: 9).stroke(KeyForgeTheme.accent.opacity(0.55)) }
+        .background(KeytomeTheme.elevatedSurface, in: RoundedRectangle(cornerRadius: 9))
+        .overlay { RoundedRectangle(cornerRadius: 9).stroke(KeytomeTheme.accent.opacity(0.55)) }
         .shadow(color: .black.opacity(0.55), radius: 28, y: 12)
     }
 }

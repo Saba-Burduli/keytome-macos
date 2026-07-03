@@ -1,5 +1,5 @@
 import Testing
-@testable import KeyForge
+@testable import Keytome
 
 struct ReferenceSearchTests {
     private let items = ReferenceRepository().items
@@ -66,7 +66,7 @@ struct ReferenceSearchTests {
     }
 
     @Test func sessionSupportsVimStyleNavigation() {
-        let session = KeyForgeSession(items: items)
+        let session = KeytomeSession(items: items)
         let firstID = session.selectedItemID
 
         session.moveSelection(by: 1)
@@ -78,7 +78,7 @@ struct ReferenceSearchTests {
     }
 
     @Test func selectionStopsAtNavigationBoundaries() {
-        let session = KeyForgeSession(items: items)
+        let session = KeytomeSession(items: items)
         session.moveToBoundary(first: true)
         let first = session.selectedItemID
         session.moveSelection(by: -1)
@@ -91,7 +91,7 @@ struct ReferenceSearchTests {
     }
 
     @Test func categorySwitchingStopsAtBoundariesAndVisitsEveryPack() {
-        let session = KeyForgeSession(items: items)
+        let session = KeytomeSession(items: items)
         session.selectCategory(nil)
         session.switchCategory(by: -1)
         #expect(session.category == nil)
@@ -106,7 +106,7 @@ struct ReferenceSearchTests {
     }
 
     @Test func searchAndModeTransitionsNormalizeState() {
-        let session = KeyForgeSession(items: items)
+        let session = KeytomeSession(items: items)
         session.beginSearch()
         #expect(session.mode == .search)
         session.query = "no result can match this phrase"
@@ -124,7 +124,7 @@ struct ReferenceSearchTests {
     }
 
     @Test func everyPaletteCommandExecutesAndInvalidCommandStaysInCommandMode() {
-        let session = KeyForgeSession(items: items)
+        let session = KeytomeSession(items: items)
 
         session.beginCommand()
         session.commandText = ":invalid"

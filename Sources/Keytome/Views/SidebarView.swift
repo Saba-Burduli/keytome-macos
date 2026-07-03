@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SidebarView: View {
-    @Bindable var session: KeyForgeSession
+    @Bindable var session: KeytomeSession
 
     var body: some View {
         VStack(spacing: 0) {
@@ -11,7 +11,7 @@ struct SidebarView: View {
                 VStack(alignment: .leading, spacing: 3) {
                     Text("▾  REFERENCE PACKS")
                         .font(.system(size: 9, weight: .semibold, design: .monospaced))
-                        .foregroundStyle(KeyForgeTheme.blueMuted)
+                        .foregroundStyle(KeytomeTheme.blueMuted)
                         .padding(.horizontal, 18)
                         .padding(.bottom, 5)
 
@@ -32,22 +32,22 @@ struct SidebarView: View {
             sidebarHints
         }
         .padding(.top, 34)
-        .background(KeyForgeTheme.sidebar)
+        .background(KeytomeTheme.sidebar)
     }
 
     private var brand: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 9) {
                 Image(systemName: "hammer.fill")
-                    .foregroundStyle(KeyForgeTheme.accent)
-                Text("KEYFORGE")
+                    .foregroundStyle(KeytomeTheme.accent)
+                Text("KEYTOME")
                     .font(.system(size: 19, weight: .bold, design: .monospaced))
                     .tracking(1.8)
-                    .foregroundStyle(KeyForgeTheme.accent)
+                    .foregroundStyle(KeytomeTheme.accent)
             }
             Text("shortcut index")
                 .font(.system(size: 11, design: .monospaced))
-                .foregroundStyle(KeyForgeTheme.blueMuted)
+                .foregroundStyle(KeytomeTheme.blueMuted)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 20)
@@ -66,25 +66,25 @@ struct SidebarView: View {
         } label: {
             HStack(spacing: 10) {
                 Text(isSelected ? "▸" : " ")
-                    .foregroundStyle(KeyForgeTheme.accent)
+                    .foregroundStyle(KeytomeTheme.accent)
                     .frame(width: 8)
                 Image(systemName: icon)
-                    .foregroundStyle(isSelected ? KeyForgeTheme.accent : .secondary)
+                    .foregroundStyle(isSelected ? KeytomeTheme.accent : .secondary)
                     .frame(width: 18)
                 Text(title)
                     .font(.system(size: 12, weight: isSelected ? .semibold : .regular, design: .monospaced))
-                    .foregroundStyle(isSelected ? KeyForgeTheme.accent : .primary)
+                    .foregroundStyle(isSelected ? KeytomeTheme.accent : .primary)
                 Spacer()
                 Text(count.formatted())
                     .font(.system(size: 10, design: .monospaced).monospacedDigit())
-                    .foregroundStyle(isSelected ? KeyForgeTheme.accent : KeyForgeTheme.muted)
+                    .foregroundStyle(isSelected ? KeytomeTheme.accent : KeytomeTheme.muted)
             }
             .padding(.horizontal, 14)
             .frame(height: 34)
-            .background(isSelected ? KeyForgeTheme.selection : .clear, in: RoundedRectangle(cornerRadius: 5))
+            .background(isSelected ? KeytomeTheme.selection : .clear, in: RoundedRectangle(cornerRadius: 5))
             .overlay {
                 if isSelected {
-                    RoundedRectangle(cornerRadius: 5).stroke(KeyForgeTheme.accent.opacity(0.55))
+                    RoundedRectangle(cornerRadius: 5).stroke(KeytomeTheme.accent.opacity(0.55))
                 }
             }
             .contentShape(Rectangle())
@@ -98,18 +98,18 @@ struct SidebarView: View {
     private var sidebarHints: some View {
         VStack(alignment: .leading, spacing: 5) {
             Text("NAVIGATION")
-                .foregroundStyle(KeyForgeTheme.blueMuted)
+                .foregroundStyle(KeytomeTheme.blueMuted)
             Text("h/l  switch pack")
             Text("j/k  move cursor")
             Text("gg/G first / last")
         }
         .font(.system(size: 9, design: .monospaced))
-        .foregroundStyle(KeyForgeTheme.muted)
+        .foregroundStyle(KeytomeTheme.muted)
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 16)
         .padding(.vertical, 10)
         .overlay(alignment: .top) {
-            Rectangle().fill(KeyForgeTheme.border).frame(height: 1)
+            Rectangle().fill(KeytomeTheme.border).frame(height: 1)
         }
     }
 }

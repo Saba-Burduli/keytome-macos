@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct HeaderView: View {
-    @Bindable var session: KeyForgeSession
+    @Bindable var session: KeytomeSession
     let keyboardTarget: FocusState<KeyboardTarget?>.Binding
 
     var body: some View {
@@ -14,18 +14,18 @@ struct HeaderView: View {
                         .font(.system(size: 27, weight: .bold, design: .monospaced))
                     Text(subtitle)
                         .font(.system(size: 13, weight: .medium, design: .monospaced))
-                        .foregroundStyle(KeyForgeTheme.blueMuted)
+                        .foregroundStyle(KeytomeTheme.blueMuted)
                 }
                 Spacer()
                 Text("⌘K  command palette")
                     .font(.system(size: 11, design: .monospaced))
-                    .foregroundStyle(KeyForgeTheme.blueMuted)
+                    .foregroundStyle(KeytomeTheme.blueMuted)
             }
         }
         .padding(.top, 24)
         .padding(.horizontal, 26)
         .padding(.bottom, 18)
-        .background(KeyForgeTheme.background)
+        .background(KeytomeTheme.background)
         .accessibilityElement(children: .contain)
     }
 
@@ -34,12 +34,12 @@ struct HeaderView: View {
         HStack(spacing: 10) {
             Text(session.mode == .search ? "/" : ":")
                 .font(.system(size: 17, weight: .bold, design: .monospaced))
-                .foregroundStyle(KeyForgeTheme.accent)
+                .foregroundStyle(KeytomeTheme.accent)
 
             if session.mode == .normal {
                 Text(session.query.isEmpty ? "Press / to search or : for commands" : session.query)
                     .font(.system(size: 14, weight: .medium, design: .monospaced))
-                    .foregroundStyle(session.query.isEmpty ? KeyForgeTheme.muted : .primary)
+                    .foregroundStyle(session.query.isEmpty ? KeytomeTheme.muted : .primary)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .contentShape(Rectangle())
                     .onTapGesture { session.beginSearch() }
@@ -62,17 +62,17 @@ struct HeaderView: View {
 
             Text("Esc normal")
                 .font(.system(size: 10, design: .monospaced))
-                .foregroundStyle(KeyForgeTheme.muted)
+                .foregroundStyle(KeytomeTheme.muted)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 5)
-                .background(KeyForgeTheme.elevatedSurface, in: RoundedRectangle(cornerRadius: 4))
+                .background(KeytomeTheme.elevatedSurface, in: RoundedRectangle(cornerRadius: 4))
         }
         .padding(.horizontal, 14)
         .frame(height: 46)
         .background(Color.black.opacity(0.24), in: RoundedRectangle(cornerRadius: 7))
         .overlay {
             RoundedRectangle(cornerRadius: 7)
-                .stroke(session.mode == .normal ? KeyForgeTheme.borderStrong : KeyForgeTheme.accent.opacity(0.65))
+                .stroke(session.mode == .normal ? KeytomeTheme.borderStrong : KeytomeTheme.accent.opacity(0.65))
         }
     }
 
@@ -90,9 +90,9 @@ struct HeaderView: View {
 
     private var modeColor: Color {
         switch session.mode {
-        case .normal: KeyForgeTheme.accent
-        case .search: KeyForgeTheme.blue
-        case .command: KeyForgeTheme.amber
+        case .normal: KeytomeTheme.accent
+        case .search: KeytomeTheme.blue
+        case .command: KeytomeTheme.amber
         }
     }
 

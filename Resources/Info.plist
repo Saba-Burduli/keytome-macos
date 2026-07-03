@@ -5,17 +5,17 @@
   <key>CFBundleDevelopmentRegion</key>
   <string>en</string>
   <key>CFBundleDisplayName</key>
-  <string>KeyForge</string>
+  <string>Keytome</string>
   <key>CFBundleExecutable</key>
-  <string>KeyForge</string>
+  <string>Keytome</string>
   <key>CFBundleIconFile</key>
-  <string>KeyForge</string>
+  <string>Keytome</string>
   <key>CFBundleIdentifier</key>
-  <string>com.sababurduli.keyforge</string>
+  <string>com.sababurduli.keytome</string>
   <key>CFBundleInfoDictionaryVersion</key>
   <string>6.0</string>
   <key>CFBundleName</key>
-  <string>KeyForge</string>
+  <string>Keytome</string>
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>

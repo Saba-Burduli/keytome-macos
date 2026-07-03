@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @State private var session = KeyForgeSession()
+    @State private var session = KeytomeSession()
     @FocusState private var keyboardTarget: KeyboardTarget?
     @State private var pendingG = false
 
@@ -13,7 +13,7 @@ struct ContentView: View {
                     .frame(minWidth: 190, idealWidth: 240, maxWidth: 260)
 
                 Rectangle()
-                    .fill(KeyForgeTheme.borderStrong)
+                    .fill(KeytomeTheme.borderStrong)
                     .frame(width: 1)
 
                 VStack(spacing: 0) {
@@ -40,7 +40,7 @@ struct ContentView: View {
             }
         }
         .frame(minWidth: 760, minHeight: 500)
-        .background(KeyForgeTheme.background)
+        .background(KeytomeTheme.background)
         .preferredColorScheme(.dark)
         .focusable()
         .focusEffectDisabled()

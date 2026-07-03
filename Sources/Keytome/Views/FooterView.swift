@@ -13,9 +13,9 @@ struct FooterView: View {
         }
         .font(.system(size: 10, weight: .medium, design: .monospaced))
         .frame(height: 34)
-        .background(KeyForgeTheme.surface)
+        .background(KeytomeTheme.surface)
         .overlay(alignment: .top) {
-            Rectangle().fill(KeyForgeTheme.borderStrong).frame(height: 1)
+            Rectangle().fill(KeytomeTheme.borderStrong).frame(height: 1)
         }
     }
 
@@ -24,7 +24,7 @@ struct FooterView: View {
             coreSegments(includeBranch: true)
             Text(message)
                 .lineLimit(1)
-                .foregroundStyle(KeyForgeTheme.muted)
+                .foregroundStyle(KeytomeTheme.muted)
                 .padding(.leading, 14)
             Spacer(minLength: 12)
             Text("j/k move   h/l packs   / search   y copy   : command")
@@ -46,18 +46,18 @@ struct FooterView: View {
     @ViewBuilder
     private func coreSegments(includeBranch: Bool) -> some View {
         StatusSegment(text: mode.rawValue, foreground: .black, background: modeColor, bold: true)
-        StatusSegment(text: category?.rawValue ?? "ALL", foreground: .white, background: KeyForgeTheme.blue.opacity(0.58))
+        StatusSegment(text: category?.rawValue ?? "ALL", foreground: .white, background: KeytomeTheme.blue.opacity(0.58))
         if includeBranch {
-            StatusSegment(text: "branch: main", foreground: .secondary, background: KeyForgeTheme.surface)
+            StatusSegment(text: "branch: main", foreground: .secondary, background: KeytomeTheme.surface)
         }
-        StatusSegment(text: "\(count) shortcuts", foreground: .secondary, background: KeyForgeTheme.surface)
+        StatusSegment(text: "\(count) shortcuts", foreground: .secondary, background: KeytomeTheme.surface)
     }
 
     private var modeColor: Color {
         switch mode {
-        case .normal: KeyForgeTheme.accent
-        case .search: KeyForgeTheme.blue
-        case .command: KeyForgeTheme.amber
+        case .normal: KeytomeTheme.accent
+        case .search: KeytomeTheme.blue
+        case .command: KeytomeTheme.amber
         }
     }
 }
@@ -76,7 +76,7 @@ private struct StatusSegment: View {
             .frame(height: 34)
             .background(background)
             .overlay(alignment: .trailing) {
-                Rectangle().fill(KeyForgeTheme.borderStrong).frame(width: 1)
+                Rectangle().fill(KeytomeTheme.borderStrong).frame(width: 1)
             }
     }
 }

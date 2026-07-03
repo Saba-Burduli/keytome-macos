@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum KeyForgeTheme {
+enum KeytomeTheme {
     static let background = Color(red: 0.035, green: 0.047, blue: 0.058)
     static let sidebar = Color(red: 0.046, green: 0.061, blue: 0.073)
     static let surface = Color(red: 0.068, green: 0.081, blue: 0.094)

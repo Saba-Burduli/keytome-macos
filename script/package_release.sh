@@ -20,13 +20,13 @@ fi
 
 SIGNED_RELEASE=false
 (( credential_count == ${#required[@]} )) && SIGNED_RELEASE=true
-if [[ "${KEYFORGE_REQUIRE_SIGNING:-false}" == "true" && "$SIGNED_RELEASE" != "true" ]]; then
-  echo "error: KEYFORGE_REQUIRE_SIGNING=true but release credentials are unavailable" >&2
+if [[ "${KEYTOME_REQUIRE_SIGNING:-false}" == "true" && "$SIGNED_RELEASE" != "true" ]]; then
+  echo "error: KEYTOME_REQUIRE_SIGNING=true but release credentials are unavailable" >&2
   exit 1
 fi
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-APP_NAME="KeyForge"
+APP_NAME="Keytome"
 DIST_DIR="$ROOT_DIR/dist"
 APP_BUNDLE="$DIST_DIR/$APP_NAME.app"
 DMG_PATH="$DIST_DIR/$APP_NAME-$VERSION.dmg"
@@ -43,12 +43,12 @@ rm -rf "$APP_BUNDLE" "$DMG_PATH"
 mkdir -p "$APP_BUNDLE/Contents/MacOS" "$APP_BUNDLE/Contents/Resources"
 cp "$BIN_PATH" "$APP_BUNDLE/Contents/MacOS/$APP_NAME"
 cp Resources/Info.plist "$APP_BUNDLE/Contents/Info.plist"
-cp Resources/KeyForge.icns "$APP_BUNDLE/Contents/Resources/KeyForge.icns"
+cp Resources/Keytome.icns "$APP_BUNDLE/Contents/Resources/Keytome.icns"
 /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $VERSION" "$APP_BUNDLE/Contents/Info.plist"
 
 if [[ "$SIGNED_RELEASE" == "true" ]]; then
   codesign --force --timestamp --options runtime \
-    --entitlements Resources/KeyForge.entitlements \
+    --entitlements Resources/Keytome.entitlements \
     --sign "$DEVELOPER_ID_APPLICATION" "$APP_BUNDLE"
 else
   echo "warning: creating an ad-hoc signed, non-notarized DMG; macOS will show a Gatekeeper warning" >&2

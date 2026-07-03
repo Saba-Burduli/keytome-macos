@@ -2,7 +2,7 @@
 set -euo pipefail
 
 MODE="${1:-run}"
-APP_NAME="KeyForge"
+APP_NAME="Keytome"
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DIST_DIR="$ROOT_DIR/dist"
@@ -24,7 +24,7 @@ mkdir -p "$APP_MACOS" "$RESOURCES_DIR"
 cp "$BUILD_BINARY" "$APP_BINARY"
 chmod +x "$APP_BINARY"
 cp "$ROOT_DIR/Resources/Info.plist" "$INFO_PLIST"
-cp "$ROOT_DIR/Resources/KeyForge.icns" "$RESOURCES_DIR/KeyForge.icns"
+cp "$ROOT_DIR/Resources/Keytome.icns" "$RESOURCES_DIR/Keytome.icns"
 
 open_app() {
   /usr/bin/open -n "$APP_BUNDLE"
@@ -45,7 +45,7 @@ case "$MODE" in
     ;;
   --telemetry|telemetry)
     open_app
-    /usr/bin/log stream --info --style compact --predicate 'subsystem == "com.sababurduli.keyforge"'
+    /usr/bin/log stream --info --style compact --predicate 'subsystem == "com.sababurduli.keytome"'
     ;;
   --verify|verify)
     open_app

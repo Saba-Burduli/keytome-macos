@@ -1,6 +1,6 @@
 # Reference sources
 
-The bundled KeyForge data was reviewed against primary documentation on July 2, 2026. The app intentionally curates high-frequency engineering and technical workflows instead of reproducing every documented shortcut or command.
+The bundled Keytome data was reviewed against primary documentation on July 2, 2026. The app intentionally curates high-frequency engineering and technical workflows instead of reproducing every documented shortcut or command.
 
 ## macOS and Terminal
 
@@ -19,7 +19,7 @@ The browser packs prioritize tab and window control, navigation, search, cache-b
 
 ### Dia limitation
 
-No complete, public, official Dia keyboard-shortcut reference was discoverable during this review. KeyForge therefore retains only a small set of conventional browser shortcuts, marks every Dia entry as `COMMON`, and tells users to verify them against the installed Dia version. Community reports and assumptions were not promoted to verified data.
+No complete, public, official Dia keyboard-shortcut reference was discoverable during this review. Keytome therefore retains only a small set of conventional browser shortcuts, marks every Dia entry as `COMMON`, and tells users to verify them against the installed Dia version. Community reports and assumptions were not promoted to verified data.
 
 ## Homebrew and zsh
 
@@ -37,7 +37,7 @@ The Homebrew pack includes daily package management, diagnostics, dependency ins
 - [Neovim command-line reference](https://neovim.io/doc/user/cmdline/)
 - [Neovim user guide: moving around and searching](https://neovim.io/doc/user/usr_03/)
 
-The Vim/Nvim pack is limited to default, broadly applicable motions, modes, search, editing, yank, paste, undo, and help commands. KeyForge itself mirrors the relevant navigation model while keeping application-specific actions explicit.
+The Vim/Nvim pack is limited to default, broadly applicable motions, modes, search, editing, yank, paste, undo, and help commands. Keytome itself mirrors the relevant navigation model while keeping application-specific actions explicit.
 
 ## Maintenance policy
 

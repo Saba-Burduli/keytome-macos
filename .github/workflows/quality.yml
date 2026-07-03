@@ -16,4 +16,4 @@ jobs:
       - name: Validate run script syntax
         run: bash -n script/build_and_run.sh script/generate_icon.sh script/package_release.sh script/verify_bundle.sh
       - name: Validate bundle metadata
-        run: plutil -lint Resources/Info.plist Resources/KeyForge.entitlements
+        run: plutil -lint Resources/Info.plist Resources/Keytome.entitlements

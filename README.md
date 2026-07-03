@@ -1,8 +1,8 @@
-# KeyForge
+# Keytome
 
-KeyForge is a native, offline macOS reference app for system shortcuts, browser shortcuts, Terminal keys, Homebrew commands, and everyday zsh commands. It is designed as a fast, keyboard-first developer utility with a restrained terminal-inspired interface.
+Keytome is a native, offline macOS reference app for system shortcuts, browser shortcuts, Terminal keys, Homebrew commands, and everyday zsh commands. It is designed as a fast, keyboard-first developer utility with a restrained terminal-inspired interface.
 
-![KeyForge main window](docs/keyforge-main.png)
+![Keytome main window](docs/keytome-main.png)
 
 ## Features
 
@@ -31,14 +31,14 @@ Dia entries are intentionally limited to common browser conventions and are visi
 ## Project structure
 
 ```text
-Sources/KeyForge/
+Sources/Keytome/
 ├── App/          App entry point
 ├── Components/   Reusable search, row, and copy controls
 ├── Data/         Repository and bundled seed data
 ├── Models/       Reference item and category types
 ├── Support/      Theme, search, and pasteboard helpers
 └── Views/        Sidebar, content, list, header, footer, and empty state
-Tests/KeyForgeTests/
+Tests/KeytomeTests/
 script/build_and_run.sh
 ```
 
@@ -48,11 +48,11 @@ Requirements: macOS 14 or newer and Xcode 16 or a compatible Swift 6 toolchain.
 
 ```bash
 git clone <repository-url>
-cd keyforge-macos
+cd keytome-macos
 ./script/build_and_run.sh
 ```
 
-The script builds the Swift package, stages `dist/KeyForge.app`, and launches it as a normal macOS application. Use `./script/build_and_run.sh --verify` to also confirm that the app process started.
+The script builds the Swift package, stages `dist/Keytome.app`, and launches it as a normal macOS application. Use `./script/build_and_run.sh --verify` to also confirm that the app process started.
 
 For development validation:
 
@@ -62,8 +62,8 @@ swift test
 
 ## Add a shortcut pack
 
-1. Add a case and SF Symbol mapping in `Sources/KeyForge/Models/ReferenceCategory.swift`.
-2. Add typed `ReferenceItem` values in `Sources/KeyForge/Data/SeedData.swift`.
+1. Add a case and SF Symbol mapping in `Sources/Keytome/Models/ReferenceCategory.swift`.
+2. Add typed `ReferenceItem` values in `Sources/Keytome/Data/SeedData.swift`.
 3. Include the new array in `SeedData.items`.
 4. Add search or data-integrity tests when the pack introduces new behavior.
 
@@ -79,7 +79,7 @@ The public release is a styled DMG with an Applications shortcut:
 ./script/package_release.sh 1.0.0
 ```
 
-The output is `dist/KeyForge-1.0.0.dmg`. Without Apple credentials the script creates an ad-hoc signed, non-notarized DMG; macOS will show a Gatekeeper warning on first launch. Control-click KeyForge in Applications, choose **Open**, then confirm **Open**. If Developer ID and App Store Connect credentials are configured, the same script signs and notarizes automatically.
+The output is `dist/Keytome-1.0.0.dmg`. Without Apple credentials the script creates an ad-hoc signed, non-notarized DMG; macOS will show a Gatekeeper warning on first launch. Control-click Keytome in Applications, choose **Open**, then confirm **Open**. If Developer ID and App Store Connect credentials are configured, the same script signs and notarizes automatically.
 
 The tag-triggered [release workflow](.github/workflows/release.yml) publishes the DMG from `main`. Release tags must point to commits on `main`.
 
@@ -92,4 +92,4 @@ The tag-triggered [release workflow](.github/workflows/release.yml) publishes th
 
 ## License
 
-KeyForge is proprietary software. Copyright © 2026 Saba Burduli. All rights reserved. No open-source license is granted; see [`NOTICE`](NOTICE).
+Keytome is proprietary software. Copyright © 2026 Saba Burduli. All rights reserved. No open-source license is granted; see [`NOTICE`](NOTICE).

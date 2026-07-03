@@ -3,20 +3,20 @@
 import PackageDescription
 
 let package = Package(
-    name: "KeyForge",
+    name: "Keytome",
     platforms: [.macOS(.v14)],
     products: [
-        .executable(name: "KeyForge", targets: ["KeyForge"])
+        .executable(name: "Keytome", targets: ["Keytome"])
     ],
     targets: [
         .executableTarget(
-            name: "KeyForge",
-            path: "Sources/KeyForge"
+            name: "Keytome",
+            path: "Sources/Keytome"
         ),
         .testTarget(
-            name: "KeyForgeTests",
-            dependencies: ["KeyForge"],
-            path: "Tests/KeyForgeTests"
+            name: "KeytomeTests",
+            dependencies: ["Keytome"],
+            path: "Tests/KeytomeTests"
         )
     ]
 )
