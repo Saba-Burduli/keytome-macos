@@ -82,7 +82,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" "dist/KeyForge-${GITHUB_REF_NAME#v}.dmg" \
-            --title "KeyForge ${GITHUB_REF_NAME#v}" \
-            --notes "Download the DMG and drag KeyForge to Applications. This build may be unsigned; if macOS blocks the first launch, Control-click KeyForge, choose Open, then confirm Open." \
-            --verify-tag
+          asset="dist/KeyForge-${GITHUB_REF_NAME#v}.dmg"
+          notes="Download the DMG and drag KeyForge to Applications. This build may be unsigned; if macOS blocks the first launch, Control-click KeyForge, choose Open, then confirm Open."
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" "$asset" --clobber
+            gh release edit "$GITHUB_REF_NAME" --title "KeyForge ${GITHUB_REF_NAME#v}" --notes "$notes"
+          else
+            gh release create "$GITHUB_REF_NAME" "$asset" \
+              --title "KeyForge ${GITHUB_REF_NAME#v}" --notes "$notes" --verify-tag
+          fi

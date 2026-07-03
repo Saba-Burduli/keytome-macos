@@ -58,6 +58,8 @@ codesign --verify --deep --strict --verbose=2 "$APP_BUNDLE"
 
 cp -R "$APP_BUNDLE" "$STAGE_DIR/"
 ln -s /Applications "$STAGE_DIR/Applications"
+mkdir -p "$STAGE_DIR/.background"
+cp Resources/DMGBackground.png "$STAGE_DIR/.background/background.png"
 hdiutil create -quiet -fs HFS+ -format UDRW -volname "$APP_NAME" -srcfolder "$STAGE_DIR" "$RW_DMG"
 hdiutil attach -quiet -readwrite -noverify -noautoopen -mountpoint "$MOUNT_DIR" "$RW_DMG"
 /usr/bin/open "$MOUNT_DIR"
@@ -72,8 +74,9 @@ tell application "Finder"
     set bounds of container window to {200, 200, 780, 560}
     set icon size of icon view options of container window to 112
     set arrangement of icon view options of container window to not arranged
-    set position of item "$APP_NAME.app" of container window to {150, 180}
-    set position of item "Applications" of container window to {430, 180}
+    set background picture of icon view options of container window to file ".background:background.png"
+    set position of item "$APP_NAME.app" of container window to {150, 200}
+    set position of item "Applications" of container window to {430, 200}
     close
     open
     update without registering applications
