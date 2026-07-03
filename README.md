@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Saba-Burduli/keytome-macos/releases/download/v1.0.0/Keytome-1.0.0.dmg"><strong>Download Keytome for macOS</strong></a>
+  <a href="https://github.com/Saba-Burduli/keytome-macos/releases/download/v1.1.0/Keytome-1.1.0.dmg"><strong>Download Keytome for macOS</strong></a>
 </p>
 
 ![Keytome main window](docs/keytome-main.png)
@@ -28,7 +28,7 @@ Keytome keeps frequently used shortcuts and commands in one keyboard-driven nati
 
 Keytome requires macOS 14 or newer.
 
-1. Download [`Keytome-1.0.0.dmg`](https://github.com/Saba-Burduli/keytome-macos/releases/download/v1.0.0/Keytome-1.0.0.dmg).
+1. Download [`Keytome-1.1.0.dmg`](https://github.com/Saba-Burduli/keytome-macos/releases/download/v1.1.0/Keytome-1.1.0.dmg).
 2. Open the downloaded DMG.
 3. Drag **Keytome** onto the **Applications** folder shown in the installer.
 4. Eject the Keytome disk image.
@@ -52,6 +52,9 @@ If that option is unavailable, try launching Keytome once, then open **System Se
 - Homebrew
 - zsh
 - Vim and Neovim
+- JetBrains IDEs using the shared macOS keymap
+- Visual Studio using the Windows General profile
+- Xcode
 
 Dia entries are intentionally marked `COMMON` because no complete public official Dia shortcut reference was available. Source and confidence details are maintained in [`docs/SOURCES.md`](docs/SOURCES.md).
 
@@ -122,10 +125,10 @@ script/
 ## Package a release
 
 ```bash
-./script/package_release.sh 1.0.0
+./script/package_release.sh 1.1.0
 ```
 
-This produces `dist/Keytome-1.0.0.dmg`. Without Apple credentials it creates an ad-hoc signed, non-notarized DMG. When complete Developer ID and App Store Connect credentials are configured, the same script signs, notarizes, staples, and validates the release automatically.
+This produces `dist/Keytome-1.1.0.dmg`. Without Apple credentials it creates an ad-hoc signed, non-notarized DMG. When complete Developer ID and App Store Connect credentials are configured, the same script signs, notarizes, staples, and validates the release automatically.
 
 ## Roadmap
 

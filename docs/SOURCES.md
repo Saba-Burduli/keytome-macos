@@ -39,6 +39,20 @@ The Homebrew pack includes daily package management, diagnostics, dependency ins
 
 The Vim/Nvim pack is limited to default, broadly applicable motions, modes, search, editing, yank, paste, undo, and help commands. Keytome itself mirrors the relevant navigation model while keeping application-specific actions explicit.
 
+## IDEs
+
+- [JetBrains predefined macOS keymap](https://www.jetbrains.com/help/idea/reference-keymap-mac-default.html)
+- [JetBrains Rider predefined keymaps](https://www.jetbrains.com/help/rider/Reference_Keyboard_Shortcuts_Index.html)
+- [Visual Studio default keyboard shortcuts](https://learn.microsoft.com/en-us/visualstudio/ide/default-keyboard-shortcuts-in-visual-studio?view=vs-2022)
+- [Identify and customize Visual Studio shortcuts](https://learn.microsoft.com/en-us/visualstudio/ide/identifying-and-customizing-keyboard-shortcuts-in-visual-studio?view=vs-2022)
+- [Xcode keyboard shortcuts and gestures — Apple archive](https://developer.apple.com/library/archive/documentation/IDEs/Conceptual/xcode_help-command_shortcuts/Introduction/Introduction.html)
+
+The JetBrains pack uses the shared predefined macOS keymap used by IntelliJ-platform IDEs, including IntelliJ IDEA, PyCharm, WebStorm, PhpStorm, CLion, GoLand, Rider, RubyMine, DataGrip, and RustRover. Product-specific plugin actions and customized keymaps are outside its scope.
+
+Visual Studio is a Windows product; its pack records the default General development profile and uses Windows modifier names. Bindings can change with the selected profile, editor context, extensions, and user customization.
+
+The Xcode pack records the default menu key equivalents from the current installed Xcode release and covers file navigation, workspace search, build actions, tests, profiling, and debugging. Xcode bindings remain user-configurable.
+
 ## Maintenance policy
 
 - Prefer vendor or project documentation over community lists.

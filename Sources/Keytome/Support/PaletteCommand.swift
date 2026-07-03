@@ -25,7 +25,8 @@ enum PaletteCommand: Equatable {
             }
             guard let category = ReferenceCategory.allCases.first(where: {
                 $0.rawValue.caseInsensitiveCompare(argument) == .orderedSame ||
-                $0.rawValue.replacingOccurrences(of: " / ", with: "").caseInsensitiveCompare(argument) == .orderedSame
+                $0.rawValue.replacingOccurrences(of: " / ", with: "").caseInsensitiveCompare(argument) == .orderedSame ||
+                $0.commandAliases.contains(argument.lowercased())
             }) else { return nil }
             return .open(category)
         case "next", "n":

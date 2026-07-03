@@ -59,10 +59,22 @@ struct ReferenceSearchTests {
         #expect(PaletteCommand.parse(":s") == .search(""))
         #expect(PaletteCommand.parse(":o all") == .open(nil))
         #expect(PaletteCommand.parse(":open homebrew") == .open(.homebrew))
+        #expect(PaletteCommand.parse(":open jetbrains") == .open(.jetBrains))
+        #expect(PaletteCommand.parse(":open visualstudio") == .open(.visualStudio))
+        #expect(PaletteCommand.parse(":open xcode") == .open(.xcode))
         #expect(PaletteCommand.parse(":clear") == .clear)
         #expect(PaletteCommand.parse(":help") == .help)
         #expect(PaletteCommand.parse(":open") == nil)
         #expect(PaletteCommand.parse("   ") == nil)
+    }
+
+    @Test func idePacksContainCuratedDefaultKeymaps() {
+        #expect(items.count(where: { $0.category == .jetBrains }) >= 30)
+        #expect(items.count(where: { $0.category == .visualStudio }) >= 30)
+        #expect(items.count(where: { $0.category == .xcode }) >= 30)
+        #expect(items.first(where: { $0.id == "jetbrains-search-everywhere" })?.value == "⇧ ⇧")
+        #expect(items.first(where: { $0.id == "vs-build-solution" })?.value == "Ctrl+Shift+B")
+        #expect(items.first(where: { $0.id == "xcode-build" })?.value == "⌘ B")
     }
 
     @Test func sessionSupportsVimStyleNavigation() {

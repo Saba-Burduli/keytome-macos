@@ -10,6 +10,9 @@ enum ReferenceCategory: String, CaseIterable, Codable, Identifiable, Sendable {
     case homebrew = "Homebrew"
     case zsh
     case vimNvim = "Vim / Nvim"
+    case jetBrains = "JetBrains IDEs"
+    case visualStudio = "Visual Studio"
+    case xcode = "Xcode"
 
     var id: String { rawValue }
 
@@ -24,6 +27,18 @@ enum ReferenceCategory: String, CaseIterable, Codable, Identifiable, Sendable {
         case .homebrew: "mug"
         case .zsh: "chevron.left.forwardslash.chevron.right"
         case .vimNvim: "v.square"
+        case .jetBrains: "brain.head.profile"
+        case .visualStudio: "chevron.left.forwardslash.chevron.right"
+        case .xcode: "hammer"
+        }
+    }
+
+    var commandAliases: [String] {
+        switch self {
+        case .jetBrains: ["jetbrains", "intellij", "idea"]
+        case .visualStudio: ["visualstudio", "vs"]
+        case .xcode: ["xcode"]
+        default: []
         }
     }
 }

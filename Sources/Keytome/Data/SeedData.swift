@@ -1,7 +1,7 @@
 import Foundation
 
 enum SeedData {
-    static let items: [ReferenceItem] = macOS + chrome + firefox + dia + brave + terminal + homebrew + zsh + vimNvim
+    static let items: [ReferenceItem] = macOS + chrome + firefox + dia + brave + terminal + homebrew + zsh + vimNvim + jetBrains + visualStudio + xcode
 
     private static func shortcut(
         _ id: String,
@@ -203,6 +203,120 @@ enum SeedData {
         shortcut("vim-undo", "Undo", "u", "Undo the latest change.", .vimNvim, tags: ["editing"]),
         shortcut("vim-redo", "Redo", "⌃ R", "Redo a change that was undone.", .vimNvim, tags: ["editing"]),
         shortcut("vim-help", "Open help", ":help", "Open Neovim help for a command or topic.", .vimNvim, tags: ["help"])
+    ]
+
+    private static let jetBrainsTags = [
+        "IntelliJ IDEA", "PyCharm", "WebStorm", "PhpStorm", "CLion", "GoLand",
+        "Rider", "RubyMine", "DataGrip", "DataSpell", "RustRover", "MPS", "Writerside",
+        "Android Studio", "macOS keymap"
+    ]
+
+    static let jetBrains: [ReferenceItem] = [
+        shortcut("jetbrains-search-everywhere", "Search Everywhere", "⇧ ⇧", "Find files, actions, symbols, settings, and VCS items.", .jetBrains, tags: jetBrainsTags + ["search"]),
+        shortcut("jetbrains-find-action", "Find Action", "⌘ ⇧ A", "Search for and run any IDE action.", .jetBrains, tags: jetBrainsTags + ["search"]),
+        shortcut("jetbrains-project-window", "Show Project window", "⌘ 1", "Focus the Project tool window.", .jetBrains, tags: jetBrainsTags + ["tool window"]),
+        shortcut("jetbrains-intention", "Show intention actions", "⌥ Enter", "Show quick fixes and context actions.", .jetBrains, tags: jetBrainsTags + ["quick fix"]),
+        shortcut("jetbrains-recent-files", "Recent files", "⌘ E", "Open the recent-files popup.", .jetBrains, tags: jetBrainsTags + ["navigation"]),
+        shortcut("jetbrains-find-usages", "Find usages", "⌥ F7", "Find usages of the symbol under the caret.", .jetBrains, tags: jetBrainsTags + ["navigation"]),
+        shortcut("jetbrains-select-in", "Select In", "⌥ F1", "Select the current file in another view.", .jetBrains, tags: jetBrainsTags + ["navigation"]),
+        shortcut("jetbrains-settings", "Open settings", "⌘ ,", "Open IDE settings.", .jetBrains, tags: jetBrainsTags),
+        shortcut("jetbrains-generate", "Generate code", "⌘ N", "Open code-generation actions for the current context.", .jetBrains, tags: jetBrainsTags + ["code"]),
+        shortcut("jetbrains-run-anything", "Run Anything", "⌃ ⌃", "Run commands, configurations, and project targets.", .jetBrains, tags: jetBrainsTags + ["run"]),
+        shortcut("jetbrains-vcs-popup", "VCS operations", "⌃ V", "Open the version-control operations popup.", .jetBrains, tags: jetBrainsTags + ["git", "VCS"]),
+        shortcut("jetbrains-refactor", "Refactor This", "⌃ T", "Open refactorings available for the selected symbol.", .jetBrains, tags: jetBrainsTags + ["refactor"]),
+        shortcut("jetbrains-reformat", "Reformat code", "⌘ ⌥ L", "Reformat the current file or selection.", .jetBrains, tags: jetBrainsTags + ["format"]),
+        shortcut("jetbrains-build", "Build project", "⌘ F9", "Build the current project.", .jetBrains, tags: jetBrainsTags + ["build"]),
+        shortcut("jetbrains-rebuild", "Rebuild project", "⌘ ⇧ F9", "Rebuild the current project from scratch.", .jetBrains, tags: jetBrainsTags + ["build"]),
+        shortcut("jetbrains-run", "Run", "⌃ R", "Run the selected configuration.", .jetBrains, tags: jetBrainsTags + ["run"]),
+        shortcut("jetbrains-debug", "Debug", "⌃ D", "Debug the selected configuration.", .jetBrains, tags: jetBrainsTags + ["debug"]),
+        shortcut("jetbrains-breakpoints", "View breakpoints", "⌘ ⇧ F8", "Open the Breakpoints dialog.", .jetBrains, tags: jetBrainsTags + ["debug"]),
+        shortcut("jetbrains-completion", "Basic completion", "⌃ Space", "Show context-aware code-completion suggestions.", .jetBrains, tags: jetBrainsTags + ["completion"]),
+        shortcut("jetbrains-smart-completion", "Smart completion", "⌃ ⇧ Space", "Filter completion suggestions by the expected type.", .jetBrains, tags: jetBrainsTags + ["completion"]),
+        shortcut("jetbrains-complete-statement", "Complete statement", "⌘ ⇧ Enter", "Complete the current statement and position the caret.", .jetBrains, tags: jetBrainsTags + ["editing"]),
+        shortcut("jetbrains-line-comment", "Toggle line comment", "⌘ /", "Comment or uncomment the current line or selection.", .jetBrains, tags: jetBrainsTags + ["editing"]),
+        shortcut("jetbrains-block-comment", "Toggle block comment", "⌘ ⌥ /", "Comment or uncomment a block selection.", .jetBrains, tags: jetBrainsTags + ["editing"]),
+        shortcut("jetbrains-declaration", "Go to declaration", "⌘ B", "Navigate to a symbol's declaration.", .jetBrains, tags: jetBrainsTags + ["navigation"]),
+        shortcut("jetbrains-implementation", "Go to implementation", "⌘ ⌥ B", "Navigate to an implementation of the selected symbol.", .jetBrains, tags: jetBrainsTags + ["navigation"]),
+        shortcut("jetbrains-class", "Go to class", "⌘ O", "Search for and open a class.", .jetBrains, tags: jetBrainsTags + ["navigation"]),
+        shortcut("jetbrains-file", "Go to file", "⌘ ⇧ O", "Search for and open a file.", .jetBrains, tags: jetBrainsTags + ["navigation"]),
+        shortcut("jetbrains-symbol", "Go to symbol", "⌘ ⌥ O", "Search for and navigate to a symbol.", .jetBrains, tags: jetBrainsTags + ["navigation"]),
+        shortcut("jetbrains-rename", "Rename", "⇧ F6", "Rename the selected symbol safely across the project.", .jetBrains, tags: jetBrainsTags + ["refactor"]),
+        shortcut("jetbrains-next-error", "Next highlighted error", "F2", "Move to the next highlighted code issue.", .jetBrains, tags: jetBrainsTags + ["diagnostics"]),
+        shortcut("jetbrains-previous-error", "Previous highlighted error", "⇧ F2", "Move to the previous highlighted code issue.", .jetBrains, tags: jetBrainsTags + ["diagnostics"]),
+        shortcut("jetbrains-extend-selection", "Extend selection", "⌥ ↑", "Expand selection to the next enclosing code construct.", .jetBrains, tags: jetBrainsTags + ["selection"]),
+        shortcut("jetbrains-shrink-selection", "Shrink selection", "⌥ ↓", "Reduce structural selection to the previous scope.", .jetBrains, tags: jetBrainsTags + ["selection"])
+    ]
+
+    static let visualStudio: [ReferenceItem] = [
+        shortcut("vs-build-solution", "Build solution", "Ctrl+Shift+B", "Build all projects in the current solution.", .visualStudio, tags: ["Windows", "General profile", "build"]),
+        shortcut("vs-cancel-build", "Cancel build", "Ctrl+Break", "Cancel the active build operation.", .visualStudio, tags: ["Windows", "General profile", "build"]),
+        shortcut("vs-start-debug", "Start debugging", "F5", "Start the current project with the debugger.", .visualStudio, tags: ["Windows", "General profile", "debug"]),
+        shortcut("vs-start-without-debug", "Start without debugging", "Ctrl+F5", "Run the current project without attaching the debugger.", .visualStudio, tags: ["Windows", "General profile", "run"]),
+        shortcut("vs-restart-debug", "Restart debugging", "Ctrl+Shift+F5", "Restart the current debugging session.", .visualStudio, tags: ["Windows", "General profile", "debug"]),
+        shortcut("vs-stop-debug", "Stop debugging", "Shift+F5", "Stop the current debugging session.", .visualStudio, tags: ["Windows", "General profile", "debug"]),
+        shortcut("vs-step-over", "Step over", "F10", "Execute the current statement without entering calls.", .visualStudio, tags: ["Windows", "General profile", "debug"]),
+        shortcut("vs-step-into", "Step into", "F11", "Execute the current statement and enter called code.", .visualStudio, tags: ["Windows", "General profile", "debug"]),
+        shortcut("vs-step-out", "Step out", "Shift+F11", "Run until the current function returns.", .visualStudio, tags: ["Windows", "General profile", "debug"]),
+        shortcut("vs-run-to-cursor", "Run to cursor", "Ctrl+F10", "Continue execution to the line under the cursor.", .visualStudio, tags: ["Windows", "General profile", "debug"]),
+        shortcut("vs-toggle-breakpoint", "Toggle breakpoint", "F9", "Add or remove a breakpoint on the current line.", .visualStudio, tags: ["Windows", "General profile", "debug"]),
+        shortcut("vs-delete-breakpoints", "Delete all breakpoints", "Ctrl+Shift+F9", "Remove every breakpoint in the solution.", .visualStudio, tags: ["Windows", "General profile", "debug"]),
+        shortcut("vs-quick-watch", "QuickWatch", "Shift+F9", "Inspect the selected expression while debugging.", .visualStudio, tags: ["Windows", "General profile", "debug"]),
+        shortcut("vs-find", "Find", "Ctrl+F", "Search within the current document.", .visualStudio, tags: ["Windows", "General profile", "search"]),
+        shortcut("vs-find-files", "Find in files", "Ctrl+Shift+F", "Search across files in the selected scope.", .visualStudio, tags: ["Windows", "General profile", "search"]),
+        shortcut("vs-find-next", "Find next", "F3", "Move to the next search match.", .visualStudio, tags: ["Windows", "General profile", "search"]),
+        shortcut("vs-find-previous", "Find previous", "Shift+F3", "Move to the previous search match.", .visualStudio, tags: ["Windows", "General profile", "search"]),
+        shortcut("vs-replace", "Replace", "Ctrl+H", "Find and replace text in the current document.", .visualStudio, tags: ["Windows", "General profile", "search"]),
+        shortcut("vs-format-document", "Format document", "Ctrl+K, Ctrl+D", "Format the entire active document.", .visualStudio, tags: ["Windows", "General profile", "format"]),
+        shortcut("vs-format-selection", "Format selection", "Ctrl+K, Ctrl+F", "Format the selected code.", .visualStudio, tags: ["Windows", "General profile", "format"]),
+        shortcut("vs-comment", "Comment selection", "Ctrl+K, Ctrl+C", "Comment the selected lines.", .visualStudio, tags: ["Windows", "General profile", "editing"]),
+        shortcut("vs-uncomment", "Uncomment selection", "Ctrl+K, Ctrl+U", "Uncomment the selected lines.", .visualStudio, tags: ["Windows", "General profile", "editing"]),
+        shortcut("vs-definition", "Go to definition", "F12", "Navigate to the definition of the selected symbol.", .visualStudio, tags: ["Windows", "General profile", "navigation"]),
+        shortcut("vs-declaration", "Go to declaration", "Ctrl+F12", "Navigate to the declaration of the selected symbol.", .visualStudio, tags: ["Windows", "General profile", "navigation"]),
+        shortcut("vs-peek", "Peek definition", "Alt+F12", "Open the selected symbol's definition inline.", .visualStudio, tags: ["Windows", "General profile", "navigation"]),
+        shortcut("vs-references", "Find all references", "Shift+F12", "Find references to the selected symbol.", .visualStudio, tags: ["Windows", "General profile", "navigation"]),
+        shortcut("vs-navigate", "Go to All", "Ctrl+,", "Search files, types, members, and symbols.", .visualStudio, tags: ["Windows", "General profile", "navigation"]),
+        shortcut("vs-open", "Open file", "Ctrl+O", "Open an existing file.", .visualStudio, tags: ["Windows", "General profile", "file"]),
+        shortcut("vs-save", "Save", "Ctrl+S", "Save the active document.", .visualStudio, tags: ["Windows", "General profile", "file"]),
+        shortcut("vs-save-all", "Save all", "Ctrl+Shift+S", "Save all modified files.", .visualStudio, tags: ["Windows", "General profile", "file"]),
+        shortcut("vs-close-document", "Close active document", "Ctrl+F4", "Close the active document tab.", .visualStudio, tags: ["Windows", "General profile", "window"]),
+        shortcut("vs-solution-explorer", "Open Solution Explorer", "Ctrl+Alt+L", "Focus the Solution Explorer tool window.", .visualStudio, tags: ["Windows", "General profile", "tool window"])
+    ]
+
+    static let xcode: [ReferenceItem] = [
+        shortcut("xcode-add-files", "Add files", "⌘ ⌥ A", "Add existing files to the current project.", .xcode, tags: ["file"]),
+        shortcut("xcode-open", "Open", "⌘ O", "Open a project, workspace, or file.", .xcode, tags: ["file"]),
+        shortcut("xcode-open-quickly", "Open Quickly", "⌘ ⇧ O", "Search and open project files and symbols.", .xcode, tags: ["search", "navigation"]),
+        shortcut("xcode-save", "Save", "⌘ S", "Save the active document.", .xcode, tags: ["file"]),
+        shortcut("xcode-save-all", "Save all", "⌘ ⌥ S", "Save every modified document.", .xcode, tags: ["file"]),
+        shortcut("xcode-find", "Find", "⌘ F", "Find text in the active editor.", .xcode, tags: ["search"]),
+        shortcut("xcode-replace", "Find and replace", "⌘ ⌥ F", "Find and replace text in the active editor.", .xcode, tags: ["search"]),
+        shortcut("xcode-find-next", "Find next", "⌘ G", "Move to the next local search match.", .xcode, tags: ["search"]),
+        shortcut("xcode-find-previous", "Find previous", "⌘ ⇧ G", "Move to the previous local search match.", .xcode, tags: ["search"]),
+        shortcut("xcode-find-workspace", "Find in workspace", "⌘ ⇧ F", "Search across the current workspace.", .xcode, tags: ["search"]),
+        shortcut("xcode-replace-workspace", "Replace in workspace", "⌘ ⌥ ⇧ F", "Find and replace across the current workspace.", .xcode, tags: ["search"]),
+        shortcut("xcode-find-symbol", "Find selected symbol", "⌘ ⌃ ⇧ F", "Find the selected symbol across the workspace.", .xcode, tags: ["search", "symbol"]),
+        shortcut("xcode-call-hierarchy", "Find call hierarchy", "⌘ ⌃ ⇧ H", "Find callers and callees of the selected symbol.", .xcode, tags: ["navigation", "symbol"]),
+        shortcut("xcode-reveal-project", "Reveal in Project Navigator", "⌘ ⇧ J", "Reveal the active file in the Project navigator.", .xcode, tags: ["navigation"]),
+        shortcut("xcode-focus-editor", "Move focus to editor pane", "⌘ J", "Move keyboard focus to an editor pane.", .xcode, tags: ["navigation"]),
+        shortcut("xcode-history-next", "Next location in history", "⌘ ⌃ →", "Move forward through navigation history.", .xcode, tags: ["navigation"]),
+        shortcut("xcode-history-previous", "Previous location in history", "⌘ ⌃ ←", "Move backward through navigation history.", .xcode, tags: ["navigation"]),
+        shortcut("xcode-definition", "Jump to definition", "⌘ ⌃ J", "Navigate to the selected symbol's definition.", .xcode, tags: ["navigation", "symbol"]),
+        shortcut("xcode-next-issue", "Jump to next issue", "⌘ '", "Move to the next build or analysis issue.", .xcode, tags: ["diagnostics"]),
+        shortcut("xcode-previous-issue", "Jump to previous issue", "⌘ \"", "Move to the previous build or analysis issue.", .xcode, tags: ["diagnostics"]),
+        shortcut("xcode-build", "Build", "⌘ B", "Build the active scheme.", .xcode, tags: ["build"]),
+        shortcut("xcode-analyze", "Analyze", "⌘ ⇧ B", "Run static analysis for the active scheme.", .xcode, tags: ["build", "diagnostics"]),
+        shortcut("xcode-clean", "Clean build folder", "⌘ ⇧ K", "Remove build products for the active scheme.", .xcode, tags: ["build"]),
+        shortcut("xcode-run", "Run", "⌘ R", "Build and run the active scheme.", .xcode, tags: ["run"]),
+        shortcut("xcode-test", "Test", "⌘ U", "Build and run tests for the active scheme.", .xcode, tags: ["test"]),
+        shortcut("xcode-profile", "Profile", "⌘ I", "Build and profile the active scheme with Instruments.", .xcode, tags: ["profile"]),
+        shortcut("xcode-stop", "Stop", "⌘ .", "Stop the active build, run, test, or profile operation.", .xcode, tags: ["run", "debug"]),
+        shortcut("xcode-build-docs", "Build documentation", "⌘ ⌃ ⇧ D", "Build DocC documentation for the project.", .xcode, tags: ["documentation"]),
+        shortcut("xcode-pause", "Pause or continue", "⌘ ⌃ Y", "Pause or continue the current debugging session.", .xcode, tags: ["debug"]),
+        shortcut("xcode-continue-line", "Continue to current line", "⌘ ⌃ C", "Continue execution to the current source line.", .xcode, tags: ["debug"]),
+        shortcut("xcode-step-over", "Step over", "F6", "Execute the current line without entering calls.", .xcode, tags: ["debug"]),
+        shortcut("xcode-step-into", "Step into", "F7", "Execute the current line and enter called code.", .xcode, tags: ["debug"]),
+        shortcut("xcode-step-out", "Step out", "F8", "Continue until the current function returns.", .xcode, tags: ["debug"]),
+        shortcut("xcode-breakpoints", "Activate breakpoints", "⌘ Y", "Enable or disable all breakpoints.", .xcode, tags: ["debug"])
     ]
 
     private static func browserShortcuts(category: ReferenceCategory) -> [ReferenceItem] {

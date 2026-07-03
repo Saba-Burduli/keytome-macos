@@ -83,6 +83,9 @@ struct HeaderView: View {
         case .homebrew: "Packages, services & Brewfiles"
         case .zsh: "Shell commands & composition"
         case .vimNvim: "Default Normal-mode keybinds"
+        case .jetBrains: "Shared macOS keymap"
+        case .visualStudio: "Windows · General profile"
+        case .xcode: "Build, navigate & debug"
         case nil: "All local reference packs"
         default: "Browser navigation & developer tools"
         }
