@@ -56,6 +56,13 @@ struct ReferenceSearchTests {
         #expect(PaletteCommand.parse(":open chrome") == .open(.chrome))
         #expect(PaletteCommand.parse(":open vimnvim") == .open(.vimNvim))
         #expect(PaletteCommand.parse(":unknown") == nil)
+        #expect(PaletteCommand.parse(":s") == .search(""))
+        #expect(PaletteCommand.parse(":o all") == .open(nil))
+        #expect(PaletteCommand.parse(":open homebrew") == .open(.homebrew))
+        #expect(PaletteCommand.parse(":clear") == .clear)
+        #expect(PaletteCommand.parse(":help") == .help)
+        #expect(PaletteCommand.parse(":open") == nil)
+        #expect(PaletteCommand.parse("   ") == nil)
     }
 
     @Test func sessionSupportsVimStyleNavigation() {
@@ -68,5 +75,85 @@ struct ReferenceSearchTests {
         #expect(session.selectedItemID == session.visibleItems.last?.id)
         session.switchCategory(by: 1)
         #expect(session.category == .chrome)
+    }
+
+    @Test func selectionStopsAtNavigationBoundaries() {
+        let session = KeyForgeSession(items: items)
+        session.moveToBoundary(first: true)
+        let first = session.selectedItemID
+        session.moveSelection(by: -1)
+        #expect(session.selectedItemID == first)
+
+        session.moveToBoundary(first: false)
+        let last = session.selectedItemID
+        session.moveSelection(by: 1)
+        #expect(session.selectedItemID == last)
+    }
+
+    @Test func categorySwitchingStopsAtBoundariesAndVisitsEveryPack() {
+        let session = KeyForgeSession(items: items)
+        session.selectCategory(nil)
+        session.switchCategory(by: -1)
+        #expect(session.category == nil)
+
+        for category in ReferenceCategory.allCases {
+            session.switchCategory(by: 1)
+            #expect(session.category == category)
+            #expect(session.visibleItems.allSatisfy { $0.category == category })
+        }
+        session.switchCategory(by: 1)
+        #expect(session.category == ReferenceCategory.allCases.last)
+    }
+
+    @Test func searchAndModeTransitionsNormalizeState() {
+        let session = KeyForgeSession(items: items)
+        session.beginSearch()
+        #expect(session.mode == .search)
+        session.query = "no result can match this phrase"
+        session.updateSearch()
+        #expect(session.visibleItems.isEmpty)
+        #expect(session.selectedItemID == nil)
+
+        session.beginCommand()
+        #expect(session.mode == .command)
+        session.commandText = ":clear"
+        #expect(session.executeCommand())
+        #expect(session.mode == .normal)
+        #expect(session.query.isEmpty)
+        #expect(session.selectedItemID == session.visibleItems.first?.id)
+    }
+
+    @Test func everyPaletteCommandExecutesAndInvalidCommandStaysInCommandMode() {
+        let session = KeyForgeSession(items: items)
+
+        session.beginCommand()
+        session.commandText = ":invalid"
+        #expect(!session.executeCommand())
+        #expect(session.mode == .command)
+
+        session.commandText = ":search spotlight"
+        #expect(session.executeCommand())
+        #expect(session.query == "spotlight")
+
+        session.beginCommand()
+        session.commandText = ":open Chrome"
+        #expect(session.executeCommand())
+        #expect(session.category == .chrome)
+
+        let initial = session.selectedItemID
+        session.beginCommand()
+        session.commandText = ":next"
+        #expect(session.executeCommand())
+        #expect(session.selectedItemID != initial)
+
+        session.beginCommand()
+        session.commandText = ":prev"
+        #expect(session.executeCommand())
+        #expect(session.selectedItemID == initial)
+
+        session.beginCommand()
+        session.commandText = ":help"
+        #expect(session.executeCommand())
+        #expect(session.showsHelp)
     }
 }

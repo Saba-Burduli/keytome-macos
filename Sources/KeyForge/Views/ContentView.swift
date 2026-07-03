@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var session = KeyForgeSession()
     @FocusState private var keyboardTarget: KeyboardTarget?
     @State private var pendingG = false
@@ -9,7 +10,7 @@ struct ContentView: View {
         ZStack {
             HStack(spacing: 0) {
                 SidebarView(session: session)
-                    .frame(width: 260)
+                    .frame(minWidth: 190, idealWidth: 240, maxWidth: 260)
 
                 Rectangle()
                     .fill(KeyForgeTheme.borderStrong)
@@ -38,7 +39,7 @@ struct ContentView: View {
                 KeymapHelpView { closeHelp() }
             }
         }
-        .frame(minWidth: 980, minHeight: 620)
+        .frame(minWidth: 760, minHeight: 500)
         .background(KeyForgeTheme.background)
         .preferredColorScheme(.dark)
         .focusable()
@@ -53,11 +54,20 @@ struct ContentView: View {
         }
         .onChange(of: session.query) { _, _ in session.updateSearch() }
         .onKeyPress(phases: .down, action: handleKeyPress)
+        .onReceive(NotificationCenter.default.publisher(for: AppCommand.notification)) { notification in
+            guard let rawValue = notification.object as? String,
+                  let command = AppCommand(rawValue: rawValue) else { return }
+            handle(command)
+        }
     }
 
     private func handleKeyPress(_ press: KeyPress) -> KeyPress.Result {
         if press.modifiers == .command && press.characters.lowercased() == "f" {
             session.beginSearch()
+            return .handled
+        }
+        if press.modifiers == .command && press.characters.lowercased() == "k" {
+            session.beginCommand()
             return .handled
         }
         if press.modifiers == .command && press.characters.lowercased() == "c" {
@@ -122,11 +132,27 @@ struct ContentView: View {
     private func copy(_ item: ReferenceItem) {
         Pasteboard.copy(item.value)
         session.statusMessage = "yanked: \(item.value)"
+        AccessibilityAnnouncer.announce("Copied \(item.value)")
     }
 
     private func closeHelp() {
         session.showsHelp = false
         session.returnToNormal()
         keyboardTarget = .canvas
+    }
+
+    private func handle(_ command: AppCommand) {
+        switch command {
+        case .commandPalette: session.beginCommand()
+        case .search: session.beginSearch()
+        case .copy: copySelection()
+        case .next: session.moveSelection(by: 1)
+        case .previous: session.moveSelection(by: -1)
+        case .nextPack: session.switchCategory(by: 1)
+        case .previousPack: session.switchCategory(by: -1)
+        case .first: session.moveToBoundary(first: true)
+        case .last: session.moveToBoundary(first: false)
+        case .help: session.showsHelp = true
+        }
     }
 }

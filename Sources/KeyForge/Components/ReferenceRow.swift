@@ -21,7 +21,7 @@ struct ReferenceRow: View {
                         .foregroundStyle(KeyForgeTheme.amber)
                 }
             }
-            .frame(width: 230, alignment: .leading)
+            .frame(minWidth: 150, idealWidth: 230, alignment: .leading)
             .padding(.leading, 20)
 
             Text(item.value)
@@ -31,7 +31,7 @@ struct ReferenceRow: View {
                 .padding(.vertical, 5)
                 .background(Color.black.opacity(0.30), in: RoundedRectangle(cornerRadius: 4))
                 .overlay { RoundedRectangle(cornerRadius: 4).stroke(KeyForgeTheme.borderStrong) }
-                .frame(width: 190, alignment: .leading)
+                .frame(minWidth: 130, idealWidth: 190, alignment: .leading)
 
             Text(item.description)
                 .foregroundStyle(isSelected ? .primary : KeyForgeTheme.muted)
@@ -56,5 +56,9 @@ struct ReferenceRow: View {
         }
         .contentShape(Rectangle())
         .padding(.horizontal, 4)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(item.title), \(item.value)")
+        .accessibilityValue(item.description)
+        .accessibilityAddTraits(isSelected ? [.isSelected] : [])
     }
 }

@@ -43,10 +43,12 @@ final class KeyForgeSession {
         let current = selectedItemID.flatMap { id in visibleItems.firstIndex { $0.id == id } } ?? 0
         let next = min(max(current + offset, 0), visibleItems.count - 1)
         selectedItemID = visibleItems[next].id
+        announceSelection()
     }
 
     func moveToBoundary(first: Bool) {
         selectedItemID = first ? visibleItems.first?.id : visibleItems.last?.id
+        announceSelection()
     }
 
     func switchCategory(by offset: Int) {
@@ -75,6 +77,14 @@ final class KeyForgeSession {
         mode = .normal
         commandText = ""
         statusMessage = "NORMAL · keyboard ready"
+    }
+
+    func announceSelection() {
+        guard let item = selectedItem else {
+            AccessibilityAnnouncer.announce("No matching references")
+            return
+        }
+        AccessibilityAnnouncer.announce("Selected \(item.title), \(item.value)")
     }
 
     @discardableResult

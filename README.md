@@ -2,9 +2,7 @@
 
 KeyForge is a native, offline macOS reference app for system shortcuts, browser shortcuts, Terminal keys, Homebrew commands, and everyday zsh commands. It is designed as a fast, keyboard-first developer utility with a restrained terminal-inspired interface.
 
-## Screenshot
-
-> Screenshot placeholder — add `docs/keyforge-main.png` after the first tagged release.
+![KeyForge main window](docs/keyforge-main.png)
 
 ## Features
 
@@ -13,7 +11,8 @@ KeyForge is a native, offline macOS reference app for system shortcuts, browser 
 - Fast case-insensitive search with compact fuzzy-subsequence matching
 - Category filtering and result counts
 - One-click copy for every shortcut and command
-- Neovim-style controls: `j/k` moves, `h/l` switches packs, `gg/G` jumps, `/` searches, `y` copies, `:` opens command mode, and `Esc` returns to NORMAL
+- Neovim-style controls: `j/k` moves, `h/l` switches packs, `gg/G` jumps, `/` searches, `y` copies, `:` or `⌘K` opens command mode, and `Esc` returns to NORMAL
+- Native macOS menus for search, copy, navigation, command palette, and keyboard help
 - Command palette support for `:search`, `:open`, `:next`, `:prev`, `:clear`, and `:help`
 - Resizable sidebar-detail layout with an empty-results state
 - Fully local data with no account, backend, telemetry, or network requirement
@@ -72,14 +71,23 @@ Each entry has a stable ID, title, copyable value, description, category, kind, 
 
 When updating bundled entries, use the primary sources and maintenance policy in [`docs/SOURCES.md`](docs/SOURCES.md). Do not promote community-reported shortcuts to verified data without vendor documentation.
 
+## Release packaging
+
+The public release is a Developer ID-signed, hardened-runtime, notarized DMG. Packaging intentionally fails if signing or App Store Connect credentials are absent:
+
+```bash
+./script/package_release.sh 1.0.0
+```
+
+The output is `dist/KeyForge-1.0.0.dmg`. See [`.github/workflows/release.yml`](.github/workflows/release.yml) for the required protected secrets and tag-triggered release process. Release tags must point to commits on `main`.
+
 ## Roadmap
 
 - User-importable local JSON packs
 - Configurable key display styles and user-defined mappings
 - Favorites and recently copied entries
 - Verified Dia-specific reference pack
-- Signed and notarized release builds
 
 ## License
 
-No open-source license has been selected yet. All rights are reserved until a license file is added.
+KeyForge is proprietary software. Copyright © 2026 Saba Burduli. All rights reserved. No open-source license is granted; see [`NOTICE`](NOTICE).

@@ -14,5 +14,7 @@ struct EmptyResultsView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(KeyForgeTheme.background)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("No matching references. Try a shorter query or choose another pack.")
     }
 }

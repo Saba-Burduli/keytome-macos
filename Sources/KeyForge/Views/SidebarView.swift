@@ -91,6 +91,8 @@ struct SidebarView: View {
         }
         .buttonStyle(.plain)
         .padding(.horizontal, 8)
+        .accessibilityLabel("\(title), \(count) references")
+        .accessibilityAddTraits(isSelected ? [.isSelected] : [])
     }
 
     private var sidebarHints: some View {

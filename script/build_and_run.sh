@@ -3,8 +3,6 @@ set -euo pipefail
 
 MODE="${1:-run}"
 APP_NAME="KeyForge"
-BUNDLE_ID="com.sababurduli.KeyForge"
-MIN_SYSTEM_VERSION="14.0"
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DIST_DIR="$ROOT_DIR/dist"
@@ -13,6 +11,7 @@ APP_CONTENTS="$APP_BUNDLE/Contents"
 APP_MACOS="$APP_CONTENTS/MacOS"
 APP_BINARY="$APP_MACOS/$APP_NAME"
 INFO_PLIST="$APP_CONTENTS/Info.plist"
+RESOURCES_DIR="$APP_CONTENTS/Resources"
 
 cd "$ROOT_DIR"
 pkill -x "$APP_NAME" >/dev/null 2>&1 || true
@@ -21,36 +20,19 @@ swift build
 BUILD_BINARY="$(swift build --show-bin-path)/$APP_NAME"
 
 rm -rf "$APP_BUNDLE"
-mkdir -p "$APP_MACOS"
+mkdir -p "$APP_MACOS" "$RESOURCES_DIR"
 cp "$BUILD_BINARY" "$APP_BINARY"
 chmod +x "$APP_BINARY"
-
-cat >"$INFO_PLIST" <<PLIST
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>CFBundleExecutable</key>
-  <string>$APP_NAME</string>
-  <key>CFBundleIdentifier</key>
-  <string>$BUNDLE_ID</string>
-  <key>CFBundleName</key>
-  <string>$APP_NAME</string>
-  <key>CFBundlePackageType</key>
-  <string>APPL</string>
-  <key>LSMinimumSystemVersion</key>
-  <string>$MIN_SYSTEM_VERSION</string>
-  <key>NSPrincipalClass</key>
-  <string>NSApplication</string>
-</dict>
-</plist>
-PLIST
+cp "$ROOT_DIR/Resources/Info.plist" "$INFO_PLIST"
+cp "$ROOT_DIR/Resources/KeyForge.icns" "$RESOURCES_DIR/KeyForge.icns"
 
 open_app() {
   /usr/bin/open -n "$APP_BUNDLE"
 }
 
 case "$MODE" in
+  --stage|stage)
+    ;;
   run)
     open_app
     ;;
@@ -63,7 +45,7 @@ case "$MODE" in
     ;;
   --telemetry|telemetry)
     open_app
-    /usr/bin/log stream --info --style compact --predicate "subsystem == \"$BUNDLE_ID\""
+    /usr/bin/log stream --info --style compact --predicate 'subsystem == "com.sababurduli.keyforge"'
     ;;
   --verify|verify)
     open_app
@@ -71,7 +53,7 @@ case "$MODE" in
     pgrep -x "$APP_NAME" >/dev/null
     ;;
   *)
-    echo "usage: $0 [run|--debug|--logs|--telemetry|--verify]" >&2
+    echo "usage: $0 [run|--stage|--debug|--logs|--telemetry|--verify]" >&2
     exit 2
     ;;
 esac

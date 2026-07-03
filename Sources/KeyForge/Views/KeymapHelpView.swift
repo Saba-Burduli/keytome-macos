@@ -10,6 +10,7 @@ struct KeymapHelpView: View {
         ("/", "enter incremental search"),
         ("n / N", "next / previous result"),
         (":", "open command mode"),
+        ("⌘K", "open command palette"),
         ("y / Enter", "copy selected keybind or command"),
         ("Esc", "return to NORMAL mode")
     ]

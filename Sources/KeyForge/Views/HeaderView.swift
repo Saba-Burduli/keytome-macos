@@ -26,6 +26,7 @@ struct HeaderView: View {
         .padding(.horizontal, 26)
         .padding(.bottom, 18)
         .background(KeyForgeTheme.background)
+        .accessibilityElement(children: .contain)
     }
 
     @ViewBuilder
@@ -52,6 +53,7 @@ struct HeaderView: View {
                 .focused(keyboardTarget, equals: .prompt)
                 .onSubmit(submitPrompt)
                 .onExitCommand { session.returnToNormal() }
+                .accessibilityLabel(session.mode == .search ? "Search references" : "Command palette")
             }
 
             Text(session.mode.rawValue)

@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct ReferenceListView: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     let items: [ReferenceItem]
     let selectedItemID: ReferenceItem.ID?
     let selectItem: (ReferenceItem.ID) -> Void
@@ -31,7 +32,7 @@ struct ReferenceListView: View {
             .background(KeyForgeTheme.background)
             .onChange(of: selectedItemID) { _, selectedID in
                 guard let selectedID else { return }
-                withAnimation(.easeOut(duration: 0.1)) {
+                withAnimation(reduceMotion ? nil : .easeOut(duration: 0.1)) {
                     proxy.scrollTo(selectedID, anchor: .center)
                 }
             }
@@ -41,8 +42,8 @@ struct ReferenceListView: View {
     private var tableHeader: some View {
         HStack(spacing: 0) {
             Text("#").frame(width: 42, alignment: .trailing)
-            Text("COMMAND").frame(width: 230, alignment: .leading).padding(.leading, 20)
-            Text("KEYBIND").frame(width: 190, alignment: .leading)
+            Text("COMMAND").frame(minWidth: 150, idealWidth: 230, alignment: .leading).padding(.leading, 20)
+            Text("KEYBIND").frame(minWidth: 130, idealWidth: 190, alignment: .leading)
             Text("DESCRIPTION").frame(maxWidth: .infinity, alignment: .leading)
             Color.clear.frame(width: 42)
         }
