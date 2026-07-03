@@ -73,13 +73,15 @@ When updating bundled entries, use the primary sources and maintenance policy in
 
 ## Release packaging
 
-The public release is a Developer ID-signed, hardened-runtime, notarized DMG. Packaging intentionally fails if signing or App Store Connect credentials are absent:
+The public release is a styled DMG with an Applications shortcut:
 
 ```bash
 ./script/package_release.sh 1.0.0
 ```
 
-The output is `dist/KeyForge-1.0.0.dmg`. See [`.github/workflows/release.yml`](.github/workflows/release.yml) for the required protected secrets and tag-triggered release process. Release tags must point to commits on `main`.
+The output is `dist/KeyForge-1.0.0.dmg`. Without Apple credentials the script creates an ad-hoc signed, non-notarized DMG; macOS will show a Gatekeeper warning on first launch. Control-click KeyForge in Applications, choose **Open**, then confirm **Open**. If Developer ID and App Store Connect credentials are configured, the same script signs and notarizes automatically.
+
+The tag-triggered [release workflow](.github/workflows/release.yml) publishes the DMG from `main`. Release tags must point to commits on `main`.
 
 ## Roadmap
 
