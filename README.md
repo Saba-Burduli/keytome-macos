@@ -1,95 +1,139 @@
-# Keytome
+<p align="center">
+  <img src="Resources/KeytomeIconSource.png" width="144" alt="Keytome app icon">
+</p>
 
-Keytome is a native, offline macOS reference app for system shortcuts, browser shortcuts, Terminal keys, Homebrew commands, and everyday zsh commands. It is designed as a fast, keyboard-first developer utility with a restrained terminal-inspired interface.
+<h1 align="center">Keytome</h1>
+
+<p align="center">
+  A fast, offline keyboard-shortcut and command reference for macOS.
+</p>
+
+<p align="center">
+  <a href="https://github.com/Saba-Burduli/keytome-macos/actions/workflows/ci.yml"><img src="https://github.com/Saba-Burduli/keytome-macos/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/Saba-Burduli/keytome-macos/releases/latest"><img src="https://img.shields.io/github/v/release/Saba-Burduli/keytome-macos" alt="Latest release"></a>
+  <img src="https://img.shields.io/badge/macOS-14%2B-black" alt="macOS 14 or newer">
+  <img src="https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white" alt="Swift 6">
+  <img src="https://img.shields.io/badge/license-Proprietary-lightgrey" alt="Proprietary license">
+</p>
+
+<p align="center">
+  <a href="https://github.com/Saba-Burduli/keytome-macos/releases/download/v1.0.0/Keytome-1.0.0.dmg"><strong>Download Keytome for macOS</strong></a>
+</p>
 
 ![Keytome main window](docs/keytome-main.png)
 
-## Features
+Keytome keeps frequently used shortcuts and commands in one keyboard-driven native app. It works entirely offline, requires no account, and includes no analytics, backend, updater, or network dependency.
 
-- Native SwiftUI interface for macOS 14 and newer
-- Nine bundled reference packs: macOS, Chrome, Firefox, Dia, Brave, Terminal, Homebrew, zsh, and Vim/Nvim
-- Fast case-insensitive search with compact fuzzy-subsequence matching
-- Category filtering and result counts
-- One-click copy for every shortcut and command
-- Neovim-style controls: `j/k` moves, `h/l` switches packs, `gg/G` jumps, `/` searches, `y` copies, `:` or `⌘K` opens command mode, and `Esc` returns to NORMAL
-- Native macOS menus for search, copy, navigation, command palette, and keyboard help
-- Command palette support for `:search`, `:open`, `:next`, `:prev`, `:clear`, and `:help`
-- Resizable sidebar-detail layout with an empty-results state
-- Fully local data with no account, backend, telemetry, or network requirement
-- Curated from primary vendor documentation, recorded in [`docs/SOURCES.md`](docs/SOURCES.md)
+## Install
 
-Dia entries are intentionally limited to common browser conventions and are visibly marked `COMMON`. They should not be treated as Dia-specific verified documentation.
+Keytome requires macOS 14 or newer.
 
-## Tech stack
+1. Download [`Keytome-1.0.0.dmg`](https://github.com/Saba-Burduli/keytome-macos/releases/download/v1.0.0/Keytome-1.0.0.dmg).
+2. Open the downloaded DMG.
+3. Drag **Keytome** onto the **Applications** folder shown in the installer.
+4. Eject the Keytome disk image.
+5. Open Keytome from `/Applications`.
 
-- Swift 6
-- SwiftUI and AppKit pasteboard integration
-- Swift Package Manager
-- Swift Testing
-- GitHub Actions on `macos-latest`
+### First launch and Gatekeeper
 
-## Project structure
+The current public build is ad-hoc signed and not Apple-notarized. On first launch, macOS may block it because it cannot verify the developer.
 
-```text
-Sources/Keytome/
-├── App/          App entry point
-├── Components/   Reusable search, row, and copy controls
-├── Data/         Repository and bundled seed data
-├── Models/       Reference item and category types
-├── Support/      Theme, search, and pasteboard helpers
-└── Views/        Sidebar, content, list, header, footer, and empty state
-Tests/KeytomeTests/
-script/build_and_run.sh
-```
+1. Open the Applications folder in Finder.
+2. Control-click **Keytome** and choose **Open**.
+3. Select **Open** in the confirmation dialog.
 
-## Run locally
+If that option is unavailable, try launching Keytome once, then open **System Settings → Privacy & Security**, find the blocked-app message, and select **Open Anyway**.
 
-Requirements: macOS 14 or newer and Xcode 16 or a compatible Swift 6 toolchain.
+## Included reference packs
+
+- macOS and Finder
+- Chrome, Firefox, Brave, and common Dia conventions
+- Terminal.app and shell editing
+- Homebrew
+- zsh
+- Vim and Neovim
+
+Dia entries are intentionally marked `COMMON` because no complete public official Dia shortcut reference was available. Source and confidence details are maintained in [`docs/SOURCES.md`](docs/SOURCES.md).
+
+## Keyboard workflow
+
+| Key | Action |
+| --- | --- |
+| `j` / `k` | Move through references |
+| `h` / `l` | Switch reference packs |
+| `gg` / `G` | Jump to the first or last result |
+| `/` or `⌘F` | Search |
+| `n` / `N` | Next or previous result |
+| `:` or `⌘K` | Open command mode |
+| `y`, `Enter`, or `⌘C` | Copy the selected value |
+| `?` | Show keyboard help |
+| `Esc` | Return to normal mode |
+
+Command mode supports `:search`, `:open`, `:next`, `:prev`, `:clear`, and `:help`.
+
+## Run from source
+
+Requirements: macOS 14 or newer and Xcode 16, or another compatible Swift 6 toolchain.
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Saba-Burduli/keytome-macos.git
 cd keytome-macos
 ./script/build_and_run.sh
 ```
 
-The script builds the Swift package, stages `dist/Keytome.app`, and launches it as a normal macOS application. Use `./script/build_and_run.sh --verify` to also confirm that the app process started.
+The script builds Keytome, stages `dist/Keytome.app`, and launches it. To stage and verify that the process starts:
 
-For development validation:
+```bash
+./script/build_and_run.sh --verify
+```
+
+Run the test suite with:
 
 ```bash
 swift test
 ```
 
-## Add a shortcut pack
+## Add a reference pack
 
-1. Add a case and SF Symbol mapping in `Sources/Keytome/Models/ReferenceCategory.swift`.
-2. Add typed `ReferenceItem` values in `Sources/Keytome/Data/SeedData.swift`.
-3. Include the new array in `SeedData.items`.
-4. Add search or data-integrity tests when the pack introduces new behavior.
+1. Add the category and SF Symbol mapping in [`ReferenceCategory.swift`](Sources/Keytome/Models/ReferenceCategory.swift).
+2. Add typed `ReferenceItem` values in [`SeedData.swift`](Sources/Keytome/Data/SeedData.swift).
+3. Include the new collection in `SeedData.items`.
+4. Add search and data-integrity tests for the new behavior.
 
-Each entry has a stable ID, title, copyable value, description, category, kind, tags, and confidence level. Use `.common` for plausible but not independently verified shortcuts so the UI communicates uncertainty.
+Every bundled entry has a stable ID, title, copyable value, description, category, kind, tags, and confidence level. Follow the sourcing policy in [`docs/SOURCES.md`](docs/SOURCES.md); do not label community-reported shortcuts as verified without primary documentation.
 
-When updating bundled entries, use the primary sources and maintenance policy in [`docs/SOURCES.md`](docs/SOURCES.md). Do not promote community-reported shortcuts to verified data without vendor documentation.
+## Project layout
 
-## Release packaging
+```text
+Sources/Keytome/
+├── App/          App entry point and native menus
+├── Components/   Reusable rows and controls
+├── Data/         Repository and bundled reference data
+├── Models/       Reference and navigation types
+├── Stores/       Application session state
+├── Support/      Search, theme, accessibility, and pasteboard helpers
+└── Views/        Sidebar, list, header, footer, and empty states
 
-The public release is a styled DMG with an Applications shortcut:
+Tests/KeytomeTests/
+Resources/
+script/
+```
+
+## Package a release
 
 ```bash
 ./script/package_release.sh 1.0.0
 ```
 
-The output is `dist/Keytome-1.0.0.dmg`. Without Apple credentials the script creates an ad-hoc signed, non-notarized DMG; macOS will show a Gatekeeper warning on first launch. Control-click Keytome in Applications, choose **Open**, then confirm **Open**. If Developer ID and App Store Connect credentials are configured, the same script signs and notarizes automatically.
-
-The tag-triggered [release workflow](.github/workflows/release.yml) publishes the DMG from `main`. Release tags must point to commits on `main`.
+This produces `dist/Keytome-1.0.0.dmg`. Without Apple credentials it creates an ad-hoc signed, non-notarized DMG. When complete Developer ID and App Store Connect credentials are configured, the same script signs, notarizes, staples, and validates the release automatically.
 
 ## Roadmap
 
-- User-importable local JSON packs
-- Configurable key display styles and user-defined mappings
-- Favorites and recently copied entries
-- Verified Dia-specific reference pack
+- Favorites and recently copied references
+- Importable local reference packs
+- Configurable key display and custom mappings
+- Verified Dia-specific references
 
 ## License
 
-Keytome is proprietary software. Copyright © 2026 Saba Burduli. All rights reserved. No open-source license is granted; see [`NOTICE`](NOTICE).
+Keytome is source-available proprietary software. Copyright © 2026 Saba Burduli. All rights reserved. No open-source license is granted. See [`NOTICE`](NOTICE).
