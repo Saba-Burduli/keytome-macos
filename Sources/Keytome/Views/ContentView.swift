@@ -41,6 +41,12 @@ struct ContentView: View {
         }
         .frame(minWidth: 760, minHeight: 500)
         .background(KeytomeTheme.background)
+        .overlay(alignment: .top) {
+            WindowDragRegion()
+                .frame(height: 34)
+                .padding(.leading, 80)
+                .accessibilityHidden(true)
+        }
         .preferredColorScheme(.dark)
         .focusable()
         .focusEffectDisabled()
