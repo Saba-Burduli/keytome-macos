@@ -1,9 +1,9 @@
 import Foundation
 
 enum SeedData {
-    static let items: [ReferenceItem] = macOS + chrome + firefox + dia + brave + terminal + homebrew + zsh + vimNvim + jetBrains + visualStudio + xcode
+    static let items: [ReferenceItem] = macOS + chrome + firefox + dia + brave + terminal + homebrew + zsh + vimNvim + jetBrains + visualStudio + xcode + vibeCodingItems
 
-    private static func shortcut(
+    static func shortcut(
         _ id: String,
         _ title: String,
         _ value: String,
@@ -24,7 +24,7 @@ enum SeedData {
         )
     }
 
-    private static func command(
+    static func command(
         _ id: String,
         _ title: String,
         _ value: String,

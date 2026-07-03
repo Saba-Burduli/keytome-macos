@@ -62,10 +62,32 @@ struct ReferenceSearchTests {
         #expect(PaletteCommand.parse(":open jetbrains") == .open(.jetBrains))
         #expect(PaletteCommand.parse(":open visualstudio") == .open(.visualStudio))
         #expect(PaletteCommand.parse(":open xcode") == .open(.xcode))
+        #expect(PaletteCommand.parse(":open copilot") == .open(.githubCopilot))
+        #expect(PaletteCommand.parse(":open zedagent") == .open(.zedAgent))
+        #expect(PaletteCommand.parse(":open codex") == .open(.openAICodex))
+        #expect(PaletteCommand.parse(":open codexapp") == .open(.codexApp))
+        #expect(PaletteCommand.parse(":open hermes") == .open(.hermesAgent))
+        #expect(PaletteCommand.parse(":open unreal") == .open(.unrealEngine))
         #expect(PaletteCommand.parse(":clear") == .clear)
         #expect(PaletteCommand.parse(":help") == .help)
         #expect(PaletteCommand.parse(":open") == nil)
         #expect(PaletteCommand.parse("   ") == nil)
+    }
+
+    @Test func extendedPacksContainRepresentativeVerifiedActions() {
+        let expected: [ReferenceCategory: String] = [
+            .cursor: "cursor-agent", .githubCopilot: "copilot-chat", .zed: "zed-palette",
+            .zedAgent: "zed-agent-context", .windsurf: "windsurf-cascade", .claudeCode: "claude-start",
+            .openAICodex: "codex-start", .aider: "aider-add", .junie: "junie-plan",
+            .cline: "cline-newtask", .warp: "warp-palette", .replit: "replit-run",
+            .firebaseStudio: "firebase-palette", .obsidian: "obsidian-palette", .codexApp: "codexapp-new",
+            .hermesAgent: "hermes-0", .openClaw: "openclaw-0", .blender: "blender-search",
+            .unity: "unity-play", .unrealEngine: "unreal-content"
+        ]
+
+        for (category, id) in expected {
+            #expect(items.contains(where: { $0.category == category && $0.id == id }))
+        }
     }
 
     @Test func idePacksContainCuratedDefaultKeymaps() {

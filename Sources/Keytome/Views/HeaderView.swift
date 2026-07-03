@@ -86,6 +86,12 @@ struct HeaderView: View {
         case .jetBrains: "Shared macOS keymap"
         case .visualStudio: "Windows · General profile"
         case .xcode: "Build, navigate & debug"
+        case .cursor, .githubCopilot, .zedAgent, .windsurf, .junie, .cline, .codexApp: "AI-assisted coding workflows"
+        case .zed, .replit, .firebaseStudio: "Edit, navigate & run"
+        case .claudeCode, .openAICodex, .aider, .hermesAgent, .openClaw: "Agent CLI commands"
+        case .warp: "Terminal, blocks & workflows"
+        case .obsidian: "Notes, links & vault navigation"
+        case .blender, .unity, .unrealEngine: "Create, navigate & run"
         case nil: "All local reference packs"
         default: "Browser navigation & developer tools"
         }

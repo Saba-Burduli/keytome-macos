@@ -55,8 +55,15 @@ If that option is unavailable, try launching Keytome once, then open **System Se
 - JetBrains IDEs using the shared macOS keymap
 - Visual Studio using the Windows General profile
 - Xcode
+- Cursor, GitHub Copilot, Windsurf, Cline, and JetBrains Junie
+- Zed editor and Zed Agent
+- Claude Code, OpenAI Codex CLI, Codex App, and Aider
+- Warp, Replit, and Firebase Studio
+- Hermes Agent and OpenClaw
+- Obsidian
+- Blender, Unity, and Unreal Engine
 
-Dia entries are intentionally marked `COMMON` because no complete public official Dia shortcut reference was available. Source and confidence details are maintained in [`docs/SOURCES.md`](docs/SOURCES.md).
+Version-dependent or undocumented bindings are visibly marked `COMMON`. Source and confidence details are maintained in [`docs/SOURCES.md`](docs/SOURCES.md).
 
 ## Keyboard workflow
 

@@ -1,6 +1,6 @@
 # Reference sources
 
-The bundled Keytome data was reviewed against primary documentation on July 2, 2026. The app intentionally curates high-frequency engineering and technical workflows instead of reproducing every documented shortcut or command.
+The bundled Keytome data was reviewed against primary documentation on July 4, 2026. The app intentionally curates high-frequency engineering and technical workflows instead of reproducing every documented shortcut or command.
 
 ## macOS and Terminal
 
@@ -52,6 +52,35 @@ The JetBrains pack uses the shared predefined macOS keymap used by IntelliJ-plat
 Visual Studio is a Windows product; its pack records the default General development profile and uses Windows modifier names. Bindings can change with the selected profile, editor context, extensions, and user customization.
 
 The Xcode pack records the default menu key equivalents from the current installed Xcode release and covers file navigation, workspace search, build actions, tests, profiling, and debugging. Xcode bindings remain user-configurable.
+
+## AI coding tools and agent CLIs
+
+- [Cursor keyboard shortcuts](https://docs.cursor.com/advanced/keyboard-shortcuts)
+- [GitHub Copilot keyboard shortcuts in VS Code](https://code.visualstudio.com/docs/reference/default-keybindings)
+- [Zed key bindings](https://zed.dev/docs/key-bindings)
+- [Windsurf Cascade](https://docs.windsurf.com/windsurf/cascade/cascade)
+- [Claude Code CLI reference](https://docs.anthropic.com/en/docs/claude-code/cli-usage)
+- [OpenAI Codex CLI reference](https://developers.openai.com/codex/cli/reference/)
+- [OpenAI Codex slash commands](https://developers.openai.com/codex/cli/slash-commands/)
+- [Aider in-chat commands](https://aider.chat/docs/usage/commands.html)
+- [Junie CLI shortcuts and slash commands](https://junie.jetbrains.com/docs/slash-commands.html)
+- [Cline commands](https://docs.cline.bot/core-workflows/using-commands)
+- [Warp keyboard shortcuts](https://docs.warp.dev/getting-started/keyboard-shortcuts)
+- [Replit documentation](https://docs.replit.com/)
+- [Firebase Studio](https://firebase.google.com/docs/studio)
+- [Hermes Agent CLI](https://hermes-agent.nousresearch.com/docs/user-guide/cli)
+- [OpenClaw CLI reference](https://docs.openclaw.ai/cli)
+
+Some tools inherit editor defaults or allow complete remapping. Entries without a stable published default are marked `COMMON`; CLI packs favor documented commands over invented key bindings.
+
+## Knowledge and creative tools
+
+- [Obsidian hotkeys](https://help.obsidian.md/hotkeys)
+- [Blender default keymap](https://docs.blender.org/manual/en/latest/interface/keymap/blender_default.html)
+- [Unity shortcut manager](https://docs.unity3d.com/Manual/ShortcutsManager.html)
+- [Unreal Engine keyboard shortcut customization](https://dev.epicgames.com/documentation/en-us/unreal-engine/customizing-keyboard-shortcuts-in-unreal-engine)
+
+Creative-tool packs use their documented default keymaps. macOS symbols are used where the vendor publishes a macOS binding; cross-platform tools may retain Control-based defaults.
 
 ## Maintenance policy
 
