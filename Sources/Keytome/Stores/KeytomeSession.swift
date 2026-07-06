@@ -6,6 +6,7 @@ final class KeytomeSession {
     private let items: [ReferenceItem]
 
     var category: ReferenceCategory? = .macOS
+    var selectedGroup: ReferenceGroup?
     var selectedItemID: ReferenceItem.ID?
     var query = ""
     var commandText = ""
@@ -18,8 +19,17 @@ final class KeytomeSession {
         selectedItemID = visibleItems.first?.id
     }
 
-    var visibleItems: [ReferenceItem] {
+    var packItems: [ReferenceItem] {
         ReferenceSearch.filter(items, query: query, category: category)
+    }
+
+    var availableGroups: [ReferenceGroup] {
+        ReferenceGroup.available(in: ReferenceSearch.filter(items, query: "", category: category))
+    }
+
+    var visibleItems: [ReferenceItem] {
+        guard let selectedGroup else { return packItems }
+        return packItems.filter { ReferenceGroup.resolve($0) == selectedGroup }
     }
 
     var selectedItem: ReferenceItem? {
@@ -34,8 +44,15 @@ final class KeytomeSession {
 
     func selectCategory(_ category: ReferenceCategory?) {
         self.category = category
+        selectedGroup = nil
         normalizeSelection(preferFirst: true)
         statusMessage = category?.rawValue ?? "All references"
+    }
+
+    func selectGroup(_ group: ReferenceGroup?) {
+        selectedGroup = group
+        normalizeSelection(preferFirst: true)
+        statusMessage = group?.title ?? "All groups"
     }
 
     func moveSelection(by offset: Int) {

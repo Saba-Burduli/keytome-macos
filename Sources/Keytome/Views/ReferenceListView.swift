@@ -2,57 +2,87 @@ import SwiftUI
 
 struct ReferenceListView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    let items: [ReferenceItem]
-    let selectedItemID: ReferenceItem.ID?
-    let selectItem: (ReferenceItem.ID) -> Void
+
+    @Bindable var session: KeytomeSession
     let copyItem: (ReferenceItem) -> Void
+    var contentState: PackContentState = .ready
+
+    private var style: PackVisualStyle {
+        session.category.map(PackVisualStyle.init(category:)) ?? .index
+    }
 
     var body: some View {
         ScrollViewReader { proxy in
-            VStack(spacing: 0) {
-                tableHeader
+            ZStack {
+                PackDesignBackground(style: style)
 
-                if items.isEmpty {
-                    EmptyResultsView()
-                } else {
-                    ScrollView {
-                        LazyVStack(spacing: 0) {
-                            ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
-                                ReferenceRow(item: item, lineNumber: index + 1, isSelected: selectedItemID == item.id)
-                                    .id(item.id)
-                                    .onTapGesture { selectItem(item.id) }
-                                    .contextMenu {
-                                        Button("Yank \(item.kind.rawValue)") { copyItem(item) }
-                                    }
-                            }
-                        }
-                    }
+                VStack(spacing: 0) {
+                    PackHeaderView(session: session, style: style)
+                    tableHeader
+                    content
                 }
             }
-            .background(KeytomeTheme.background)
-            .onChange(of: selectedItemID) { _, selectedID in
+            .onChange(of: session.selectedItemID) { _, selectedID in
                 guard let selectedID else { return }
-                withAnimation(reduceMotion ? nil : .easeOut(duration: 0.1)) {
+                withAnimation(reduceMotion ? nil : .easeOut(duration: 0.12)) {
                     proxy.scrollTo(selectedID, anchor: .center)
                 }
             }
         }
     }
 
+    @ViewBuilder
+    private var content: some View {
+        if contentState == .loading {
+            LoadingPackView(style: style)
+        } else if session.visibleItems.isEmpty {
+            EmptyResultsView(
+                query: session.query,
+                group: session.selectedGroup,
+                accent: style.accent,
+                clearFilters: clearFilters
+            )
+        } else {
+            ScrollView {
+                LazyVStack(spacing: 8) {
+                    ForEach(Array(session.visibleItems.enumerated()), id: \.element.id) { index, item in
+                        ReferenceRow(
+                            item: item,
+                            lineNumber: index + 1,
+                            isSelected: session.selectedItemID == item.id,
+                            style: style,
+                            copyItem: { copyItem(item) }
+                        )
+                        .id(item.id)
+                        .onTapGesture { session.selectedItemID = item.id }
+                        .contextMenu { Button("Yank \(item.kind.rawValue)") { copyItem(item) } }
+                    }
+                }
+                .frame(maxWidth: 1120)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 10)
+                .frame(maxWidth: .infinity)
+            }
+        }
+    }
+
     private var tableHeader: some View {
-        HStack(spacing: 0) {
-            Text("#").frame(width: 42, alignment: .trailing)
-            Text("COMMAND").frame(minWidth: 150, idealWidth: 230, alignment: .leading).padding(.leading, 20)
-            Text("KEYBIND").frame(minWidth: 130, idealWidth: 190, alignment: .leading)
-            Text("DESCRIPTION").frame(maxWidth: .infinity, alignment: .leading)
-            Color.clear.frame(width: 42)
+        HStack {
+            Text("ACTION")
+            Spacer()
+            Text("SHORTCUT / COMMAND")
         }
-        .font(.system(size: 10, weight: .bold, design: .monospaced))
-        .foregroundStyle(KeytomeTheme.blueMuted)
-        .padding(.horizontal, 22)
-        .frame(height: 38)
-        .overlay(alignment: .bottom) {
-            Rectangle().fill(KeytomeTheme.borderStrong).frame(height: 1)
-        }
+        .font(.system(size: 9, weight: .bold, design: .monospaced))
+        .foregroundStyle(style.secondary.opacity(0.7))
+        .padding(.horizontal, 28)
+        .frame(height: 32)
+        .background(style.background.opacity(0.86))
+        .overlay(alignment: .bottom) { Rectangle().fill(style.accent.opacity(0.14)).frame(height: 1) }
+    }
+
+    private func clearFilters() {
+        session.query = ""
+        session.selectGroup(nil)
+        session.updateSearch()
     }
 }

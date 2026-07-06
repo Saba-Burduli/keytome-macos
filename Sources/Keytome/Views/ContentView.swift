@@ -19,17 +19,16 @@ struct ContentView: View {
                 VStack(spacing: 0) {
                     HeaderView(session: session, keyboardTarget: $keyboardTarget)
 
-                    ReferenceListView(
-                        items: session.visibleItems,
-                        selectedItemID: session.selectedItemID,
-                        selectItem: { session.selectedItemID = $0 },
-                        copyItem: copy
-                    )
+                    ReferenceListView(session: session, copyItem: copy)
 
                     FooterView(
                         mode: session.mode,
                         category: session.category,
+                        group: session.selectedGroup,
+                        selectedItem: session.selectedItem,
+                        selectedIndex: session.selectedItemID.flatMap { id in session.visibleItems.firstIndex { $0.id == id } },
                         count: session.visibleItems.count,
+                        query: session.query,
                         message: session.statusMessage
                     )
                 }
@@ -40,7 +39,7 @@ struct ContentView: View {
             }
         }
         .frame(minWidth: 760, minHeight: 500)
-        .background(KeytomeTheme.background)
+        .background(GlassSurface(opaque: KeytomeTheme.background))
         .overlay(alignment: .top) {
             WindowDragRegion()
                 .frame(height: 34)

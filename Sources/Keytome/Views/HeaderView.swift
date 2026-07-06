@@ -5,28 +5,12 @@ struct HeaderView: View {
     let keyboardTarget: FocusState<KeyboardTarget?>.Binding
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            promptBar
-
-            HStack(alignment: .firstTextBaseline) {
-                VStack(alignment: .leading, spacing: 5) {
-                    Text("\(session.category?.rawValue ?? "All") Shortcuts")
-                        .font(.system(size: 27, weight: .bold, design: .monospaced))
-                    Text(subtitle)
-                        .font(.system(size: 13, weight: .medium, design: .monospaced))
-                        .foregroundStyle(KeytomeTheme.blueMuted)
-                }
-                Spacer()
-                Text("⌘K  command palette")
-                    .font(.system(size: 11, design: .monospaced))
-                    .foregroundStyle(KeytomeTheme.blueMuted)
-            }
-        }
-        .padding(.top, 24)
-        .padding(.horizontal, 26)
-        .padding(.bottom, 18)
-        .background(KeytomeTheme.background)
-        .accessibilityElement(children: .contain)
+        promptBar
+            .padding(.top, 40)
+            .padding(.horizontal, 18)
+            .padding(.bottom, 10)
+            .background(GlassSurface(opaque: KeytomeTheme.background))
+            .accessibilityElement(children: .contain)
     }
 
     @ViewBuilder
@@ -73,27 +57,6 @@ struct HeaderView: View {
         .overlay {
             RoundedRectangle(cornerRadius: 7)
                 .stroke(session.mode == .normal ? KeytomeTheme.borderStrong : KeytomeTheme.accent.opacity(0.65))
-        }
-    }
-
-    private var subtitle: String {
-        switch session.category {
-        case .macOS: "System & Finder"
-        case .terminal: "Terminal.app & shell editing"
-        case .homebrew: "Packages, services & Brewfiles"
-        case .zsh: "Shell commands & composition"
-        case .vimNvim: "Default Normal-mode keybinds"
-        case .jetBrains: "Shared macOS keymap"
-        case .visualStudio: "Windows · General profile"
-        case .xcode: "Build, navigate & debug"
-        case .cursor, .githubCopilot, .zedAgent, .windsurf, .junie, .cline, .codexApp: "AI-assisted coding workflows"
-        case .zed, .replit, .firebaseStudio: "Edit, navigate & run"
-        case .claudeCode, .openAICodex, .aider, .hermesAgent, .openClaw: "Agent CLI commands"
-        case .warp: "Terminal, blocks & workflows"
-        case .obsidian: "Notes, links & vault navigation"
-        case .blender, .unity, .unrealEngine: "Create, navigate & run"
-        case nil: "All local reference packs"
-        default: "Browser navigation & developer tools"
         }
     }
 

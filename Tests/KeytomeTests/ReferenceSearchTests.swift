@@ -190,4 +190,38 @@ struct ReferenceSearchTests {
         #expect(session.executeCommand())
         #expect(session.showsHelp)
     }
+
+    @Test func shortcutChordNormalizesModifiersAndSequences() {
+        #expect(ShortcutChord("Ctrl+Shift+B").strokes == [.init(keys: ["⌃", "⇧", "B"])])
+        #expect(ShortcutChord("⌘ K ⌘ S").strokes == [
+            .init(keys: ["⌘", "K"]),
+            .init(keys: ["⌘", "S"])
+        ])
+        #expect(ShortcutChord("Tab").strokes == [.init(keys: ["Tab"])])
+    }
+
+    @Test func groupsFilterWithoutChangingTheSelectedPack() {
+        let session = KeytomeSession(items: items)
+        session.selectCategory(.vimNvim)
+        let navigation = session.availableGroups.first(where: { $0.id == "navigation" })
+
+        #expect(navigation != nil)
+        session.selectGroup(navigation)
+        #expect(session.category == .vimNvim)
+        #expect(!session.visibleItems.isEmpty)
+        #expect(session.visibleItems.allSatisfy { ReferenceGroup.resolve($0) == navigation })
+
+        session.selectCategory(.chrome)
+        #expect(session.selectedGroup == nil)
+    }
+
+    @Test func everyPackHasPresentationAndGroups() {
+        for category in ReferenceCategory.allCases {
+            let style = PackVisualStyle(category: category)
+            let packItems = items.filter { $0.category == category }
+
+            #expect(!style.label.isEmpty)
+            #expect(!ReferenceGroup.available(in: packItems).isEmpty)
+        }
+    }
 }

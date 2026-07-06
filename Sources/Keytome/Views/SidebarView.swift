@@ -32,7 +32,7 @@ struct SidebarView: View {
             sidebarHints
         }
         .padding(.top, 34)
-        .background(KeytomeTheme.sidebar)
+        .background(GlassSurface(opaque: KeytomeTheme.sidebar))
     }
 
     private var brand: some View {
@@ -61,30 +61,31 @@ struct SidebarView: View {
         category: ReferenceCategory?
     ) -> some View {
         let isSelected = session.category == category
+        let accent = category.map { PackVisualStyle(category: $0).accent } ?? PackVisualStyle.index.accent
         return Button {
             session.selectCategory(category)
         } label: {
             HStack(spacing: 10) {
                 Text(isSelected ? "▸" : " ")
-                    .foregroundStyle(KeytomeTheme.accent)
+                    .foregroundStyle(accent)
                     .frame(width: 8)
                 Image(systemName: icon)
-                    .foregroundStyle(isSelected ? KeytomeTheme.accent : .secondary)
+                    .foregroundStyle(isSelected ? accent : .secondary)
                     .frame(width: 18)
                 Text(title)
                     .font(.system(size: 12, weight: isSelected ? .semibold : .regular, design: .monospaced))
-                    .foregroundStyle(isSelected ? KeytomeTheme.accent : .primary)
+                    .foregroundStyle(isSelected ? accent : .primary)
                 Spacer()
                 Text(count.formatted())
                     .font(.system(size: 10, design: .monospaced).monospacedDigit())
-                    .foregroundStyle(isSelected ? KeytomeTheme.accent : KeytomeTheme.muted)
+                    .foregroundStyle(isSelected ? accent : KeytomeTheme.muted)
             }
             .padding(.horizontal, 14)
             .frame(height: 34)
-            .background(isSelected ? KeytomeTheme.selection : .clear, in: RoundedRectangle(cornerRadius: 5))
+            .background(isSelected ? accent.opacity(0.105) : .clear, in: RoundedRectangle(cornerRadius: 5))
             .overlay {
                 if isSelected {
-                    RoundedRectangle(cornerRadius: 5).stroke(KeytomeTheme.accent.opacity(0.55))
+                    RoundedRectangle(cornerRadius: 5).stroke(accent.opacity(0.55))
                 }
             }
             .contentShape(Rectangle())

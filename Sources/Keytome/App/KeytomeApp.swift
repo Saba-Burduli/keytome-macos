@@ -3,6 +3,8 @@ import SwiftUI
 
 @main
 struct KeytomeApp: App {
+    @AppStorage(AppearancePreferences.glassEnabledKey) private var glassEnabled = false
+
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -23,6 +25,10 @@ struct KeytomeApp: App {
                     .keyboardShortcut("c", modifiers: .command)
                 Button("Show Keyboard Help") { AppCommand.help.send() }
                     .keyboardShortcut("?", modifiers: .command)
+
+                Divider()
+
+                Toggle("Glass Appearance", isOn: $glassEnabled)
             }
 
             CommandMenu("Navigate") {
