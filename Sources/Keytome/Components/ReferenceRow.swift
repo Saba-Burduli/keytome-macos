@@ -4,15 +4,19 @@ struct ReferenceRow: View {
     let item: ReferenceItem
     let lineNumber: Int
     let isSelected: Bool
+    let isCompact: Bool
     let style: PackVisualStyle
     let copyItem: () -> Void
 
     @State private var isHovering = false
 
     var body: some View {
-        ViewThatFits(in: .horizontal) {
-            regularRow
-            compactRow
+        Group {
+            if isCompact {
+                compactRow
+            } else {
+                regularRow
+            }
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 11)
@@ -32,7 +36,7 @@ struct ReferenceRow: View {
         HStack(spacing: 14) {
             lineAndIcon
             titleAndDescription.frame(minWidth: 180, maxWidth: .infinity, alignment: .leading)
-            ShortcutValueView(item: item, style: style, isSelected: isSelected)
+            ShortcutValueView(item: item, style: style, isSelected: isSelected, isCompact: false)
                 .frame(minWidth: 150, idealWidth: 230, maxWidth: 320, alignment: .leading)
             copyButton
         }
@@ -46,7 +50,7 @@ struct ReferenceRow: View {
                 Spacer(minLength: 4)
                 copyButton
             }
-            ShortcutValueView(item: item, style: style, isSelected: isSelected)
+            ShortcutValueView(item: item, style: style, isSelected: isSelected, isCompact: true)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
@@ -71,7 +75,8 @@ struct ReferenceRow: View {
             HStack(spacing: 7) {
                 Text(item.title)
                     .font(.system(size: 13, weight: isSelected ? .bold : .semibold, design: style.fontDesign))
-                    .lineLimit(1)
+                    .lineLimit(isCompact ? 2 : 1)
+                    .layoutPriority(1)
                 if item.confidence == .common {
                     Text("COMMON")
                         .font(.system(size: 7, weight: .bold, design: .monospaced))

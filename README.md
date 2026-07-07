@@ -20,9 +20,22 @@
   <a href="https://github.com/Saba-Burduli/keytome-macos/releases/download/v1.1.0/Keytome-1.1.0.dmg"><strong>Download Keytome for macOS</strong></a>
 </p>
 
-![Keytome main window](docs/keytome-main.png)
+![Keytome pack showcase](docs/keytome-showcase.png)
 
 Keytome keeps frequently used shortcuts and commands in one keyboard-driven native app. It works entirely offline, requires no account, and includes no analytics, backend, updater, or network dependency.
+
+## One interface, distinct pack identities
+
+Every pack keeps the same fast keyboard workflow while adapting its palette, typography, grouping, keycaps, and background details to the tool it documents.
+
+![Keytome macOS shortcuts](docs/keytome-main.png)
+
+<p align="center">
+  <img src="docs/showcase/keytome-codex-app.png" width="49%" alt="Keytome Codex App shortcuts">
+  <img src="docs/showcase/keytome-terminal.png" width="49%" alt="Keytome Terminal shortcuts">
+</p>
+
+The layout remains usable from compact windows through full-screen and ultrawide workspaces. The NVim-inspired statusline keeps mode, pack, selection, search state, and navigation hints visible.
 
 ## Install
 

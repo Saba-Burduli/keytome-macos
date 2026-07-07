@@ -12,27 +12,29 @@ struct ReferenceListView: View {
     }
 
     var body: some View {
-        ScrollViewReader { proxy in
-            ZStack {
-                PackDesignBackground(style: style)
+        GeometryReader { geometry in
+            ScrollViewReader { proxy in
+                ZStack {
+                    PackDesignBackground(style: style)
 
-                VStack(spacing: 0) {
-                    PackHeaderView(session: session, style: style)
-                    tableHeader
-                    content
+                    VStack(spacing: 0) {
+                        PackHeaderView(session: session, style: style)
+                        tableHeader
+                        content(isCompact: PackLayoutMetrics.isCompact(detailWidth: geometry.size.width))
+                    }
                 }
-            }
-            .onChange(of: session.selectedItemID) { _, selectedID in
-                guard let selectedID else { return }
-                withAnimation(reduceMotion ? nil : .easeOut(duration: 0.12)) {
-                    proxy.scrollTo(selectedID, anchor: .center)
+                .onChange(of: session.selectedItemID) { _, selectedID in
+                    guard let selectedID else { return }
+                    withAnimation(reduceMotion ? nil : .easeOut(duration: 0.12)) {
+                        proxy.scrollTo(selectedID, anchor: .center)
+                    }
                 }
             }
         }
     }
 
     @ViewBuilder
-    private var content: some View {
+    private func content(isCompact: Bool) -> some View {
         if contentState == .loading {
             LoadingPackView(style: style)
         } else if session.visibleItems.isEmpty {
@@ -50,6 +52,7 @@ struct ReferenceListView: View {
                             item: item,
                             lineNumber: index + 1,
                             isSelected: session.selectedItemID == item.id,
+                            isCompact: isCompact,
                             style: style,
                             copyItem: { copyItem(item) }
                         )

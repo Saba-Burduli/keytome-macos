@@ -224,4 +224,11 @@ struct ReferenceSearchTests {
             #expect(!ReferenceGroup.available(in: packItems).isEmpty)
         }
     }
+
+    @Test func compactLayoutUsesStableDetailPaneBreakpoint() {
+        #expect(PackLayoutMetrics.isCompact(detailWidth: 500))
+        #expect(PackLayoutMetrics.isCompact(detailWidth: 699))
+        #expect(!PackLayoutMetrics.isCompact(detailWidth: 700))
+        #expect(!PackLayoutMetrics.isCompact(detailWidth: 1_200))
+    }
 }
