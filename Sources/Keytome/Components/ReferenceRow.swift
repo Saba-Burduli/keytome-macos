@@ -56,17 +56,26 @@ struct ReferenceRow: View {
     }
 
     private var lineAndIcon: some View {
-        HStack(spacing: 9) {
-            Text(lineNumber.formatted())
-                .font(.system(size: 9, weight: .bold, design: .monospaced))
-                .foregroundStyle(isSelected ? style.accent : style.secondary.opacity(0.5))
-                .frame(width: 24, alignment: .trailing)
+        HStack(spacing: style.rowTreatment == .denseTable ? 7 : 9) {
+            if style.rowTreatment == .numberedCards {
+                Text(lineNumber.formatted())
+                    .font(.system(size: 11, weight: .bold, design: .monospaced))
+                    .foregroundStyle(isSelected ? .black : style.accent)
+                    .frame(width: 28, height: 28)
+                    .background(isSelected ? style.accent : style.accent.opacity(0.12), in: Circle())
+                    .overlay { Circle().stroke(style.accent.opacity(isSelected ? 0.8 : 0.36)) }
+            } else if style.rowTreatment != .denseTable {
+                Text(lineNumber.formatted())
+                    .font(.system(size: 9, weight: .bold, design: .monospaced))
+                    .foregroundStyle(isSelected ? style.accent : style.secondary.opacity(0.5))
+                    .frame(width: 24, alignment: .trailing)
+            }
             Image(systemName: icon)
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundStyle(style.accent)
-                .frame(width: 36, height: 36)
-                .background(style.accent.opacity(isSelected ? 0.2 : 0.1), in: RoundedRectangle(cornerRadius: 8))
-                .overlay { RoundedRectangle(cornerRadius: 8).stroke(style.accent.opacity(isSelected ? 0.65 : 0.22)) }
+                .font(.system(size: iconSize, weight: .semibold))
+                .foregroundStyle(iconForeground)
+                .frame(width: iconFrame, height: iconFrame)
+                .background(iconBackground, in: iconShape)
+                .overlay { iconShape.stroke(style.accent.opacity(isSelected ? 0.65 : 0.22)) }
         }
     }
 
@@ -74,7 +83,7 @@ struct ReferenceRow: View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 7) {
                 Text(item.title)
-                    .font(.system(size: 13, weight: isSelected ? .bold : .semibold, design: style.fontDesign))
+                    .font(.system(size: style.rowTreatment == .denseTable ? 12 : 13, weight: isSelected ? .bold : .semibold, design: style.fontDesign))
                     .lineLimit(isCompact ? 2 : 1)
                     .layoutPriority(1)
                 if item.confidence == .common {
@@ -89,7 +98,7 @@ struct ReferenceRow: View {
             Text(item.description)
                 .font(.system(size: 11, weight: .regular, design: style.fontDesign))
                 .foregroundStyle(isSelected ? Color.primary.opacity(0.86) : style.secondary.opacity(0.65))
-                .lineLimit(2)
+                .lineLimit(style.rowTreatment == .denseTable ? 1 : 2)
         }
     }
 
@@ -106,9 +115,20 @@ struct ReferenceRow: View {
     }
 
     private var rowBackground: Color {
-        if isSelected { return style.accent.opacity(0.16) }
-        if isHovering { return style.surface.opacity(0.96) }
-        return style.surface.opacity(0.76)
+        switch style.rowTreatment {
+        case .denseTable:
+            if isSelected { return style.accent.opacity(0.13) }
+            if isHovering { return style.surface.opacity(0.82) }
+            return style.background.opacity(0.42)
+        case .numberedCards:
+            if isSelected { return style.accent.opacity(0.18) }
+            if isHovering { return style.surface.opacity(0.98) }
+            return style.surface.opacity(0.72)
+        case .commandTable, .iconCards:
+            if isSelected { return style.accent.opacity(0.16) }
+            if isHovering { return style.surface.opacity(0.96) }
+            return style.surface.opacity(0.76)
+        }
     }
 
     private var rowBorder: Color {
@@ -120,5 +140,47 @@ struct ReferenceRow: View {
     private var icon: String {
         if item.kind == .command { return "chevron.right" }
         return ReferenceGroup.resolve(item).systemImage
+    }
+
+    private var iconSize: CGFloat {
+        switch style.rowTreatment {
+        case .denseTable: 12
+        case .numberedCards: 13
+        default: 14
+        }
+    }
+
+    private var iconFrame: CGFloat {
+        switch style.rowTreatment {
+        case .denseTable: 30
+        case .numberedCards: 34
+        default: 36
+        }
+    }
+
+    private var iconForeground: Color {
+        switch style.keycapTreatment {
+        case .paper where isSelected: .black
+        default: style.accent
+        }
+    }
+
+    private var iconBackground: Color {
+        switch style.keycapTreatment {
+        case .paper:
+            isSelected ? style.secondary.opacity(0.9) : style.secondary.opacity(0.14)
+        case .terminal:
+            isSelected ? style.accent.opacity(0.22) : Color.black.opacity(0.34)
+        case .outlined:
+            isSelected ? style.accent.opacity(0.18) : style.background.opacity(0.58)
+        case .glow:
+            style.accent.opacity(isSelected ? 0.24 : 0.12)
+        case .glass:
+            style.accent.opacity(isSelected ? 0.2 : 0.1)
+        }
+    }
+
+    private var iconShape: RoundedRectangle {
+        RoundedRectangle(cornerRadius: style.rowTreatment == .denseTable ? 6 : 8)
     }
 }

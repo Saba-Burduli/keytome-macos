@@ -5,18 +5,27 @@ struct PackHeaderView: View {
     let style: PackVisualStyle
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            ViewThatFits(in: .horizontal) {
-                regularHeader
-                compactHeader
+        ZStack(alignment: .topTrailing) {
+            PackHeroArtwork(style: style, symbol: session.category?.systemImage ?? "square.stack.3d.up")
+                .frame(width: 390)
+                .opacity(0.86)
+                .padding(.trailing, 10)
+
+            VStack(alignment: .leading, spacing: 14) {
+                ViewThatFits(in: .horizontal) {
+                    regularHeader
+                    compactHeader
+                }
+                groupPicker
             }
-            groupPicker
+            .frame(maxWidth: .infinity, alignment: .topLeading)
         }
         .padding(.horizontal, 24)
-        .padding(.vertical, 20)
+        .padding(.vertical, 19)
+        .frame(minHeight: 172)
         .background(
             LinearGradient(
-                colors: [style.surface.opacity(0.88), style.background.opacity(0.72)],
+                colors: [style.surface.opacity(0.92), style.background.opacity(0.78), style.accent.opacity(0.08)],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -25,10 +34,10 @@ struct PackHeaderView: View {
     }
 
     private var regularHeader: some View {
-        HStack(spacing: 18) {
+        HStack(spacing: 17) {
             packIcon(size: 62)
             titleBlock
-            Spacer(minLength: 18)
+            Spacer(minLength: 220)
             packFacts
         }
     }
@@ -42,9 +51,13 @@ struct PackHeaderView: View {
     }
 
     private var titleBlock: some View {
-        VStack(alignment: .leading, spacing: 5) {
+        VStack(alignment: .leading, spacing: 7) {
+            Text(style.label)
+                .font(.system(size: 9, weight: .bold, design: .monospaced))
+                .tracking(1.4)
+                .foregroundStyle(style.accent.opacity(0.92))
             Text("\(session.category?.rawValue ?? "All") Shortcuts")
-                .font(.system(size: 28, weight: .bold, design: style.fontDesign))
+                .font(.system(size: titleSize, weight: .bold, design: style.fontDesign))
                 .foregroundStyle(.primary)
                 .lineLimit(2)
                 .minimumScaleFactor(0.78)
@@ -56,15 +69,13 @@ struct PackHeaderView: View {
     }
 
     private var packFacts: some View {
-        VStack(alignment: .trailing, spacing: 6) {
-            Text(style.label)
-                .font(.system(size: 9, weight: .bold, design: .monospaced))
-                .tracking(1.1)
-                .foregroundStyle(style.accent)
-            Text("\(session.packItems.count) shortcuts")
-                .font(.system(size: 11, weight: .semibold, design: .monospaced))
-                .foregroundStyle(.secondary)
+        HStack(spacing: 7) {
+            factPill("\(session.packItems.count)", "shortcuts")
+            factPill("\(session.availableGroups.count)", "groups")
         }
+        .padding(8)
+        .background(Color.black.opacity(0.18), in: RoundedRectangle(cornerRadius: 13))
+        .overlay { RoundedRectangle(cornerRadius: 13).stroke(style.accent.opacity(0.16)) }
     }
 
     private var groupPicker: some View {
@@ -86,9 +97,9 @@ struct PackHeaderView: View {
                 .font(.system(size: 10, weight: selected ? .bold : .medium, design: .monospaced))
                 .padding(.horizontal, 11)
                 .frame(height: 30)
-                .foregroundStyle(selected ? style.accent : .secondary)
-                .background(selected ? style.accent.opacity(0.16) : Color.black.opacity(0.18), in: RoundedRectangle(cornerRadius: 7))
-                .overlay { RoundedRectangle(cornerRadius: 7).stroke(style.accent.opacity(selected ? 0.65 : 0.16)) }
+                .foregroundStyle(selected ? groupForeground : .secondary)
+                .background(groupBackground(selected: selected), in: RoundedRectangle(cornerRadius: 8))
+                .overlay { RoundedRectangle(cornerRadius: 8).stroke(style.accent.opacity(selected ? 0.66 : 0.16)) }
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(selected ? .isSelected : [])
@@ -102,6 +113,40 @@ struct PackHeaderView: View {
             .background(style.accent.opacity(0.12), in: RoundedRectangle(cornerRadius: size * 0.22))
             .overlay { RoundedRectangle(cornerRadius: size * 0.22).stroke(style.accent.opacity(0.42)) }
             .shadow(color: style.accent.opacity(0.2), radius: 14)
+    }
+
+    private func factPill(_ value: String, _ label: String) -> some View {
+        VStack(spacing: 1) {
+            Text(value)
+                .font(.system(size: 13, weight: .bold, design: .monospaced))
+                .foregroundStyle(style.accent)
+            Text(label.uppercased())
+                .font(.system(size: 7, weight: .bold, design: .monospaced))
+                .foregroundStyle(style.secondary.opacity(0.68))
+        }
+        .frame(width: 64, height: 43)
+        .background(style.background.opacity(0.62), in: RoundedRectangle(cornerRadius: 9))
+    }
+
+    private func groupBackground(selected: Bool) -> some ShapeStyle {
+        if selected {
+            return AnyShapeStyle(LinearGradient(colors: [style.accent.opacity(0.24), style.secondary.opacity(0.12)], startPoint: .topLeading, endPoint: .bottomTrailing))
+        }
+        return AnyShapeStyle(Color.black.opacity(0.22))
+    }
+
+    private var groupForeground: Color {
+        switch style.keycapTreatment {
+        case .paper: .black
+        default: style.accent
+        }
+    }
+
+    private var titleSize: CGFloat {
+        switch style.composition {
+        case .ideSplit, .creative, .game, .blueprint, .mythic: 30
+        default: 28
+        }
     }
 
     private var subtitle: String {

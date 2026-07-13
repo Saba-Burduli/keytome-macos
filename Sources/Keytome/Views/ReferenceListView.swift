@@ -46,7 +46,7 @@ struct ReferenceListView: View {
             )
         } else {
             ScrollView {
-                LazyVStack(spacing: 8) {
+                LazyVStack(spacing: rowSpacing) {
                     ForEach(Array(session.visibleItems.enumerated()), id: \.element.id) { index, item in
                         ReferenceRow(
                             item: item,
@@ -61,9 +61,12 @@ struct ReferenceListView: View {
                         .contextMenu { Button("Yank \(item.kind.rawValue)") { copyItem(item) } }
                     }
                 }
-                .frame(maxWidth: 1120)
+                .padding(listInset)
+                .background(listPanelBackground, in: RoundedRectangle(cornerRadius: listCornerRadius))
+                .overlay { RoundedRectangle(cornerRadius: listCornerRadius).stroke(style.accent.opacity(listBorderOpacity)) }
+                .frame(maxWidth: contentWidth)
                 .padding(.horizontal, 12)
-                .padding(.vertical, 10)
+                .padding(.vertical, 12)
                 .frame(maxWidth: .infinity)
             }
         }
@@ -71,9 +74,9 @@ struct ReferenceListView: View {
 
     private var tableHeader: some View {
         HStack {
-            Text("ACTION")
+            Text(primaryColumnTitle)
             Spacer()
-            Text("SHORTCUT / COMMAND")
+            Text(secondaryColumnTitle)
         }
         .font(.system(size: 9, weight: .bold, design: .monospaced))
         .foregroundStyle(style.secondary.opacity(0.7))
@@ -81,6 +84,60 @@ struct ReferenceListView: View {
         .frame(height: 32)
         .background(style.background.opacity(0.86))
         .overlay(alignment: .bottom) { Rectangle().fill(style.accent.opacity(0.14)).frame(height: 1) }
+    }
+
+    private var primaryColumnTitle: String {
+        switch style.rowTreatment {
+        case .commandTable: "COMMAND"
+        case .denseTable: "ACTION / DESCRIPTION"
+        default: "ACTION"
+        }
+    }
+
+    private var secondaryColumnTitle: String {
+        switch style.rowTreatment {
+        case .denseTable: "KEY"
+        default: "SHORTCUT / COMMAND"
+        }
+    }
+
+    private var rowSpacing: CGFloat {
+        switch style.rowTreatment {
+        case .denseTable: 3
+        case .commandTable: 5
+        default: 8
+        }
+    }
+
+    private var listInset: EdgeInsets {
+        switch style.rowTreatment {
+        case .denseTable: EdgeInsets(top: 7, leading: 7, bottom: 7, trailing: 7)
+        default: EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+        }
+    }
+
+    private var contentWidth: CGFloat {
+        switch style.composition {
+        case .desktop, .browser, .browserGlow, .graph: 1120
+        case .wideAssistant, .creative, .game, .blueprint: 1180
+        case .mythic, .operatorPanel: 1080
+        default: 1040
+        }
+    }
+
+    private var listPanelBackground: Color {
+        switch style.rowTreatment {
+        case .denseTable, .commandTable: style.background.opacity(0.36)
+        default: style.background.opacity(0.18)
+        }
+    }
+
+    private var listCornerRadius: CGFloat {
+        style.rowTreatment == .denseTable ? 10 : 14
+    }
+
+    private var listBorderOpacity: Double {
+        style.rowTreatment == .denseTable ? 0.1 : 0.16
     }
 
     private func clearFilters() {
