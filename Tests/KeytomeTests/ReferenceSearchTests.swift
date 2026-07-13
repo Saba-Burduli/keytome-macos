@@ -216,6 +216,9 @@ struct ReferenceSearchTests {
     }
 
     @Test func everyPackHasPresentationAndGroups() {
+        let designs = ReferenceCategory.allCases.map { PackVisualStyle(category: $0).design }
+        #expect(Set(designs).count == ReferenceCategory.allCases.count)
+
         for category in ReferenceCategory.allCases {
             let style = PackVisualStyle(category: category)
             let packItems = items.filter { $0.category == category }

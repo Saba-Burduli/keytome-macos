@@ -117,11 +117,39 @@ struct ReferenceListView: View {
     }
 
     private var contentWidth: CGFloat {
-        switch style.composition {
-        case .desktop, .browser, .browserGlow, .graph: 1120
-        case .wideAssistant, .creative, .game, .blueprint: 1180
-        case .mythic, .operatorPanel: 1080
-        default: 1040
+        switch style.design {
+        case .macOS: 1120
+        case .chrome: 1120
+        case .firefox: 1080
+        case .dia: 1100
+        case .brave: 1160
+        case .terminal: 1100
+        case .homebrew: 1140
+        case .zsh: 1120
+        case .vimNvim: 1160
+        case .jetBrains: 1120
+        case .visualStudio: 1100
+        case .xcode: 1080
+        case .cursor: 1120
+        case .githubCopilot: 1100
+        case .zed: 1120
+        case .zedAgent: 1100
+        case .windsurf: 1180
+        case .claudeCode: 1080
+        case .openAICodex: 1100
+        case .aider: 1120
+        case .junie: 1160
+        case .cline: 1160
+        case .warp: 1140
+        case .replit: 1140
+        case .firebaseStudio: 1100
+        case .obsidian: 1120
+        case .codexApp: 1160
+        case .hermesAgent: 1080
+        case .openClaw: 1100
+        case .blender: 1140
+        case .unity: 1180
+        case .unrealEngine: 1180
         }
     }
 
